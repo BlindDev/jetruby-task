@@ -12,19 +12,27 @@ import SwiftyJSON
 
 class ConnectionsManager {
     //YYYY-MM-DDTHH:MM:SSZ
+    //GET https://api.dribbble.com/v1/user?access_token=...
     
     static let sharedInstance = ConnectionsManager()
     
     private let clientID = "b2d5805b5067740cdb08b9c5f8678554aa46217f53a80fe77efb0646df48bc19"
     private let clientSecret = "faeea2937f32639cd3a25b6be70926246bbb0dea8edc4f4adfae43a4f16993c8"
     private let scope = "comment"
-    //GET https://api.dribbble.com/v1/user?access_token=...
     private let mainLink = "https://api.dribbble.com/v1"
     
-    var accessToken: String? {
+    private var accessToken: String? {
         didSet{
-            print("Access token = \(accessToken)")
+            //TODO: add realm saving to database
         }
+    }
+    
+    func hasToken() -> Bool {
+        
+        if let token = self.accessToken{
+            return !token.isEmpty
+        }
+        return false
     }
     
     func fetchShots() {
@@ -45,7 +53,7 @@ class ConnectionsManager {
         }
     }
     
-    func processResponse(responseURL: NSURL) {
+    func processFirstStepResponse(responseURL: NSURL) {
         
         let components = NSURLComponents(URL: responseURL, resolvingAgainstBaseURL: false)
         
@@ -64,19 +72,19 @@ class ConnectionsManager {
             
             let tokenLink = "https://dribbble.com/oauth/token"
             
-            let tokenParams = [
+            let tokenParameters = [
                 "client_id": clientID,
                 "client_secret": clientSecret,
                 "code": receivedCode
             ]
             
-            Alamofire.request(.POST, tokenLink, parameters: tokenParams)
+            Alamofire.request(.POST, tokenLink, parameters: tokenParameters)
                 .responseJSON { response in
                     switch response.result {
                     case .Success:
                         if let value = response.result.value {
                             let json = JSON(value)
-                            print("JSON: \(json)")
+//                            print("JSON: \(json)")
 
                             self.updateToken(withJSON: json)
                         }

@@ -14,10 +14,10 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = '7F6D2DA0DA1A92ED0076A3B9DA25BCD4'
-               BlueprintName = 'Pods-DribbleClient'
+               BlueprintIdentifier = '41132186B0C2AE8050D649B9BAEB7CD3'
+               BlueprintName = 'SwiftyJSON'
                ReferencedContainer = 'container:Pods.xcodeproj'
-               BuildableName = 'Pods-DribbleClient.framework'>
+               BuildableName = 'SwiftyJSON.framework'>
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>

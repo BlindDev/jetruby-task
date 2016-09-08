@@ -19,6 +19,17 @@ class RootViewController: UIViewController {
 
         // Do any additional setup after loading the view.
     }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        //TODO: add realm DB token
+        signInView.hidden = ConnectionsManager.sharedInstance.hasToken()
+        
+        if ConnectionsManager.sharedInstance.hasToken() {
+            ConnectionsManager.sharedInstance.fetchShots()
+        }
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
