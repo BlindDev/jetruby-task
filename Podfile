@@ -10,5 +10,5 @@ target 'DribbleClient' do
 	pod 'RealmSwift'
 	pod 'SDWebImage', '~> 3.8'
 	pod 'MBProgressHUD'
-
+	pod 'SwiftyJSON', '~> 2.3'
 end

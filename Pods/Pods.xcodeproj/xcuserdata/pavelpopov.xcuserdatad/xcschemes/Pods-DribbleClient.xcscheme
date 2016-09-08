@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "4835512BD16854C9319C9A83209E7288"
+               BlueprintIdentifier = "7F6D2DA0DA1A92ED0076A3B9DA25BCD4"
                BuildableName = "Pods_DribbleClient.framework"
                BlueprintName = "Pods-DribbleClient"
                ReferencedContainer = "container:Pods.xcodeproj">
@@ -45,7 +45,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "4835512BD16854C9319C9A83209E7288"
+            BlueprintIdentifier = "7F6D2DA0DA1A92ED0076A3B9DA25BCD4"
             BuildableName = "Pods_DribbleClient.framework"
             BlueprintName = "Pods-DribbleClient"
             ReferencedContainer = "container:Pods.xcodeproj">
