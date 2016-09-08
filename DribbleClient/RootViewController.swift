@@ -10,9 +10,9 @@ import UIKit
 
 class RootViewController: UIViewController {
 
-    @IBAction func SignIn(sender: AnyObject) {
-        ConnectionsManager.sharedInstance.startLogin()
-    }
+//        ConnectionsManager.sharedInstance.startLogin()
+    
+    @IBOutlet weak var signInView: SignInView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,3 +37,4 @@ class RootViewController: UIViewController {
     */
 
 }
+

@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		A022EBD51D815203006E31C0 /* Connections.swift in Sources */ = {isa = PBXBuildFile; fileRef = A022EBD41D815203006E31C0 /* Connections.swift */; };
 		A022EBD71D816A69006E31C0 /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A022EBD61D816A69006E31C0 /* RootViewController.swift */; };
+		A022EBD91D8179C9006E31C0 /* SignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A022EBD81D8179C9006E31C0 /* SignInView.swift */; };
 		A03E19981D80EFCE00B48CD5 /* Notes in Resources */ = {isa = PBXBuildFile; fileRef = A03E19971D80EFCE00B48CD5 /* Notes */; };
 		A0678BE11D80E9E800FD65F8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0678BE01D80E9E800FD65F8 /* AppDelegate.swift */; };
 		A0678BE61D80E9E800FD65F8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A0678BE41D80E9E800FD65F8 /* Main.storyboard */; };
@@ -23,6 +24,7 @@
 		73911456C79FC311BC665D43 /* Pods-DribbleClient.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DribbleClient.debug.xcconfig"; path = "Pods/Target Support Files/Pods-DribbleClient/Pods-DribbleClient.debug.xcconfig"; sourceTree = "<group>"; };
 		A022EBD41D815203006E31C0 /* Connections.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Connections.swift; sourceTree = "<group>"; };
 		A022EBD61D816A69006E31C0 /* RootViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
+		A022EBD81D8179C9006E31C0 /* SignInView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInView.swift; sourceTree = "<group>"; };
 		A03E19971D80EFCE00B48CD5 /* Notes */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Notes; sourceTree = "<group>"; };
 		A0678BDD1D80E9E800FD65F8 /* DribbleClient.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DribbleClient.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A0678BE01D80E9E800FD65F8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -95,6 +97,7 @@
 			isa = PBXGroup;
 			children = (
 				A022EBD61D816A69006E31C0 /* RootViewController.swift */,
+				A022EBD81D8179C9006E31C0 /* SignInView.swift */,
 				A0678BE41D80E9E800FD65F8 /* Main.storyboard */,
 				A022EBD41D815203006E31C0 /* Connections.swift */,
 				A03E19961D80EFB800B48CD5 /* SupportingFiles */,
@@ -227,6 +230,7 @@
 			files = (
 				A022EBD51D815203006E31C0 /* Connections.swift in Sources */,
 				A0678BE11D80E9E800FD65F8 /* AppDelegate.swift in Sources */,
+				A022EBD91D8179C9006E31C0 /* SignInView.swift in Sources */,
 				A022EBD71D816A69006E31C0 /* RootViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
