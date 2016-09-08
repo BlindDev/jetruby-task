@@ -1,0 +1,42 @@
+Resources:
+● API Dribbble ­  http://developer.dribbble.com/v1/
+
+General requirements:
+● Application should be written in Swift.
+● Use a specific stack of technologies (see the attachment).
+● Use default components to build the user interface/user experience and
+follow Apple HIG.
+● Add any third-party libraries through a dependency manager CocoaPods.
+● Use the MVVM   design pattern
+● Ensure support of all the iOS versions starting from iOS 8.
+● Ensure support of all the iPhones starting from iPhone 4s.
+
+1. Log in
+Once a user has launched the app, the first thing he should see, if not registered, is the login screen. The “Login” button should be on the login screen. By pressing the button, a user should go through a standard OAuth authorization. Upon completion, the login screen should be hidden.
+
+2. Shots viewing
+When authorized, a user should be able to see the screen for viewing shots. The screen must include the list of recent shots with their titles, brief descriptions and authors. A user should be able to like shots. By clicking the author's name, a user should open the screen showing the author’s profile. To comment a shot, a user has to click the cell which should open the screen for commenting. The Logout button should be located in the left part of the screen. By pressing the button, a user should go to the Login screen.
+Requirements for the screen:
+● Ignore animated shots.
+● Use hidpi images, if available.
+● Add offline shot caching. After a user has relaunched the app, he should
+see the downloaded shots.
+● Each shot must have a title and a description. The description must be no
+longer than 2 lines.
+● The size of the shot cell should be equal to half of the screen height.
+● Pictures must be displayed according to proportions.
+● Use the pull­down­to­refresh feature to get the latest shots.
+
+3. Shot commenting
+The screen for commenting should include the list of comments to a shot and a field for commenting. The comment must consist of the author’s name, his picture, the date of commenting and the text itself. The field to enter the text and the send button should be in the bottom of the screen. By pressing the button, a user posts his comment which should be displayed among the other comments.
+Requirements for the screen:
+● The size of the comment cell should depend on the text length.
+● After a user presses the post button, he should be able to see HUD before
+the process of sending the comment to the API ends
+● After the comment has been sent, the screen should return to its initial
+state.
+
+4. Profile viewing
+The profile viewing screen should allow for viewing the author’s info. The screen must consist of a title and a list. The title must contain the author’s name, his picture, personal info, and the number of likes and followers. The next thing after the title is the list of likes and followers. A user should be able to switch between these lists.
+The list of likes must include the name of the person who left the like, his picture, the date when the like was left and the title of the shot liked.
+The list of followers must include the follower’s name, his picture, the number of likes the follower left.
