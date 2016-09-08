@@ -6,9 +6,9 @@ target 'DribbleClient' do
   use_frameworks!
 
   # Pods for DribbleClient
-    	pod 'Alamofire', '~> 3.4'
-	pod 'RealmSwift'
-	pod 'SDWebImage', '~> 3.8'
-	pod 'MBProgressHUD'
-	pod 'SwiftyJSON', '~> 2.3'
+  pod 'Alamofire', '~> 3.4'
+  pod 'RealmSwift', '~> 1.0'
+  pod 'SDWebImage', '~> 3.8'
+  pod 'MBProgressHUD'
+  pod 'SwiftyJSON', '~> 2.3'
 end

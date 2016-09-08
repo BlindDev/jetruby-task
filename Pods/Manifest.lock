@@ -14,7 +14,7 @@ PODS:
 DEPENDENCIES:
   - Alamofire (~> 3.4)
   - MBProgressHUD
-  - RealmSwift
+  - RealmSwift (~> 1.0)
   - SDWebImage (~> 3.8)
   - SwiftyJSON (~> 2.3)
 
@@ -26,6 +26,6 @@ SPEC CHECKSUMS:
   SDWebImage: 35f9627a3e44b4f292a8a8ce6a531fa488239b91
   SwiftyJSON: 04ccea08915aa0109039157c7974cf0298da292a
 
-PODFILE CHECKSUM: bbbfc3aeebb4afc3e54497b78b58014c899b5e6c
+PODFILE CHECKSUM: 9f087c1ff38424a04f5f6a99e6566775cfe566c5
 
 COCOAPODS: 1.0.1
