@@ -15,12 +15,25 @@ class LoginViewModel {
     required init(withTokenStatus status: Bool) {
         
         self.hasToken = status
-    }
-    
-    func startAuthentication() {
         
+        let manager = DataManager.sharedInstance
+        manager.delegate = self
+    }
+}
+
+extension LoginViewModel: LoginViewDelegate {
+    func authenticate() {
         let connectionManager = ConnectionManager.sharedInstance
         
         connectionManager.startLogin()
+    }
+}
+
+extension LoginViewModel: DataManagerDelegate {
+    
+    func tokenDidSet() {
+        print("Token did set")
+        
+        //TODO: remove login view
     }
 }

@@ -8,12 +8,22 @@
 
 import UIKit
 
+protocol LoginViewDelegate {
+    func authenticate()
+}
+
 class LoginViewController: UIViewController {
 
-    weak var viewModel: LoginViewModel! 
+    weak var viewModel: LoginViewModel! {
+        didSet{
+            delegate = viewModel
+        }
+    }
+    
+    private var delegate: LoginViewDelegate?
     
     @IBAction func loginAction(sender: UIButton) {
-        viewModel.startAuthentication()
+        delegate?.authenticate()
     }
     
     override func viewDidLoad() {
@@ -22,28 +32,4 @@ class LoginViewController: UIViewController {
 
         // Do any additional setup after loading the view.
     }
-    
-    override func viewDidAppear(animated: Bool) {
-//        if viewModel.hasToken {
-//            
-//            dismissViewControllerAnimated(true, completion: nil)
-//        }
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }

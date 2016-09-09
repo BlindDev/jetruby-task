@@ -9,12 +9,18 @@
 import Foundation
 import RealmSwift
 
+protocol DataManagerDelegate {
+    func tokenDidSet()
+}
+
 class Token: Object {
     dynamic var accessToken = ""
 }
 
 class DataManager {
     static let sharedInstance = DataManager()
+    
+    var delegate: DataManagerDelegate?
     
     func savedToken() -> String? {
         
@@ -37,6 +43,7 @@ class DataManager {
         if let token = realm.objects(Token).first {
             try! realm.write {
                 token.accessToken = newToken
+                delegate?.tokenDidSet()
             }
         }
     }
