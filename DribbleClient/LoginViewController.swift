@@ -1,34 +1,33 @@
 //
-//  RootViewController.swift
+//  LoginViewController.swift
 //  DribbleClient
 //
-//  Created by Pavel Popov on 08.09.16.
+//  Created by Pavel Popov on 09.09.16.
 //  Copyright © 2016 Pavel Popov. All rights reserved.
 //
 
 import UIKit
 
-class RootViewController: UIViewController {
+class LoginViewController: UIViewController {
 
-//        ConnectionsManager.sharedInstance.startLogin()
+    weak var viewModel: LoginViewModel! 
     
-    @IBOutlet weak var signInView: SignInView!
+    @IBAction func loginAction(sender: UIButton) {
+        viewModel.startAuthentication()
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
+
         // Do any additional setup after loading the view.
     }
     
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        //TODO: add realm DB token
-        signInView.hidden = ConnectionsManager.sharedInstance.hasToken()
-        
-        if ConnectionsManager.sharedInstance.hasToken() {
-            ConnectionsManager.sharedInstance.fetchShots()
-        }
+    override func viewDidAppear(animated: Bool) {
+//        if viewModel.hasToken {
+//            
+//            dismissViewControllerAnimated(true, completion: nil)
+//        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -48,4 +47,3 @@ class RootViewController: UIViewController {
     */
 
 }
-
