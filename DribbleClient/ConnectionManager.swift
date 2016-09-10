@@ -24,23 +24,21 @@ class ConnectionManager {
     private let scope = "comment"
     private let mainLink = "https://api.dribbble.com/v1"
     
-    func fetchShots() {
+    func fetchShots(completion:()->()) {
         
-//        let link = mainLink + "/shots"
-//
-//        let parameters = [
-//            "list" : "attachments"
-//        ]
+        let link = mainLink + "/shots"
+
+        let parameters = [
+            "list" : "attachments"
+        ]
+        
+        getConnection(link, parameters: parameters) {
+            completion()
+        }
     }
     
     func getUserInfo(withToken token: String) {
         
-    }
-    
-    func getShot(id: String) {
-        //GET /shots/:id
-        
-//        let link = mainLink + "/shots" + id
     }
     
     func getShotComments(id: String) {
@@ -49,6 +47,11 @@ class ConnectionManager {
     
     func createComment() {
         //POST /shots/:shot/comments
+        
+    }
+    
+    func getConnection(link: String, parameters: [String: String], completion: ()->()) {
+        
         
     }
     

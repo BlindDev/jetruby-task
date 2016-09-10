@@ -14,9 +14,15 @@ protocol ShotsViewModelDelegate {
 
 class ShotsViewModel {
     
-    var token: String?
-    
     private let connectionManager = ConnectionManager.sharedInstance
+    private let dataManager = DataManager.sharedInstance
+    
+    var token: String?
+    var shots: [Shot]!{
+        get{
+            return dataManager.savedShots()
+        }
+    }
     
     init(withToken token: String?){
         
@@ -30,5 +36,11 @@ class ShotsViewModel {
         }
         
         return false
+    }
+    
+    func updateShots(completion: () -> ()) {
+        connectionManager.fetchShots(){
+            completion()
+        }
     }
 }
