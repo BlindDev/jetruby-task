@@ -26,14 +26,29 @@ class ConnectionManager {
     
     func fetchShots() {
         
-        //        let link = mainLink + "/shots"
-        //
-        //        let parameters = [
-        //            "list" : "attachments"
-        //        ]
+//        let link = mainLink + "/shots"
+//
+//        let parameters = [
+//            "list" : "attachments"
+//        ]
     }
     
     func getUserInfo(withToken token: String) {
+        
+    }
+    
+    func getShot(id: String) {
+        //GET /shots/:id
+        
+//        let link = mainLink + "/shots" + id
+    }
+    
+    func getShotComments(id: String) {
+        //GET /shots/:shot/comments
+    }
+    
+    func createComment() {
+        //POST /shots/:shot/comments
         
     }
     
