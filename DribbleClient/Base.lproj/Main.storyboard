@@ -31,7 +31,13 @@
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="vcJ-lj-gkJ" secondAttribute="bottom" id="sU3-Oh-hGf"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="AR5-Jh-D1H"/>
+                    <navigationItem key="navigationItem" id="AR5-Jh-D1H">
+                        <barButtonItem key="leftBarButtonItem" title="Log-out" id="H4U-8T-roT">
+                            <connections>
+                                <action selector="logoutAction:" destination="BYZ-38-t0r" id="edu-uD-dP9"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>

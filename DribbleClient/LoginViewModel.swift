@@ -12,28 +12,16 @@ class LoginViewModel {
     
     var hasToken: Bool!
     
+    let connectionManager = ConnectionManager.sharedInstance
+    
     required init(withTokenStatus status: Bool) {
         
         self.hasToken = status
-        
-        let manager = DataManager.sharedInstance
-        manager.delegate = self
     }
-}
-
-extension LoginViewModel: LoginViewDelegate {
-    func authenticate() {
-        let connectionManager = ConnectionManager.sharedInstance
-        
-        connectionManager.startLogin()
-    }
-}
-
-extension LoginViewModel: DataManagerDelegate {
     
-    func tokenDidSet() {
-        print("Token did set")
+    func authURL() -> NSURL? {
         
-        //TODO: remove login view
+        return connectionManager.loginURL
     }
 }
+

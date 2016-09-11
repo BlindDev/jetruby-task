@@ -8,28 +8,55 @@
 
 import UIKit
 
-protocol LoginViewDelegate {
-    func authenticate()
-}
-
 class LoginViewController: UIViewController {
 
     weak var viewModel: LoginViewModel! {
         didSet{
-            delegate = viewModel
+            authURL = viewModel.authURL()
         }
     }
     
-    private var delegate: LoginViewDelegate?
+    var authURL: NSURL?
     
+    var webView: UIWebView!
+        
     @IBAction func loginAction(sender: UIButton) {
-        delegate?.authenticate()
+        webView.hidden = false
+        loadAddressURL()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
 
-        // Do any additional setup after loading the view.
+        webView = UIWebView(frame: view.bounds)
+        webView.autoresizingMask = .FlexibleHeight
+        webView.scalesPageToFit = true
+        webView.hidden = true
+        webView.delegate = self
+        view.addSubview(webView)
+    }
+    
+    func loadAddressURL() {
+        if let targetURL =  authURL {
+            let req = NSURLRequest(URL: targetURL)
+            webView.loadRequest(req)
+        }
+    }
+}
+
+extension LoginViewController: UIWebViewDelegate {
+    func webViewDidStartLoad(webView: UIWebView) {
+        UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+    }
+    
+    func webViewDidFinishLoad(webView: UIWebView) {
+        UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+    }
+    
+    func webView(webView: UIWebView, didFailLoadWithError error: NSError?) {
+        
+        UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+
     }
 }

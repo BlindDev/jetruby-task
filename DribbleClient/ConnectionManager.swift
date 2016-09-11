@@ -55,12 +55,23 @@ class ConnectionManager {
         
     }
     
-    func startLogin() {
-        
-        let authLink = "https://dribbble.com/oauth/authorize?client_id=\(clientID)&scope=\(scope)&state=JetRuby_STATE"
-        
-        if let authURL = NSURL(string: authLink) {
-            UIApplication.sharedApplication().openURL(authURL)
+//    func startLogin() {
+//        
+//        let authLink = "https://dribbble.com/oauth/authorize?client_id=\(clientID)&scope=\(scope)&state=JetRuby_STATE"
+//        
+//        if let authURL = NSURL(string: authLink) {
+//            UIApplication.sharedApplication().openURL(authURL)
+//        }
+//    }
+    
+    var loginURL: NSURL? {
+        get{
+            let authLink = "https://dribbble.com/oauth/authorize?client_id=\(clientID)&scope=\(scope)&state=JetRuby_STATE"
+
+            if let authURL = NSURL(string: authLink) {
+                return authURL
+            }
+            return nil
         }
     }
     
@@ -91,6 +102,8 @@ class ConnectionManager {
             
             Alamofire.request(.POST, tokenLink, parameters: tokenParameters)
                 .responseJSON { response in
+                    let dataManager = DataManager.sharedInstance
+
                     switch response.result {
                     case .Success:
                         if let value = response.result.value {
@@ -99,13 +112,13 @@ class ConnectionManager {
                             
                             let token = serializer.responseAuthToken()
                             
-                            let dataManager = DataManager.sharedInstance
                             
                             dataManager.updateToken(token)
                         }
                         
                     case .Failure(let error):
                         print(error)
+                        dataManager.updateToken(nil)
                     }
             }
         }

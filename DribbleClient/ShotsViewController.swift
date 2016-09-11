@@ -14,8 +14,15 @@ class ShotsViewController: UIViewController {
         didSet{
             
             hasToken = viewModel.hasToken()
+            viewModel.delegate = self
             //TODO: update data, refresh data through model
         }
+    }
+    
+    @IBAction func logoutAction(sender: UIBarButtonItem) {
+        viewModel.logout()
+        hasToken = viewModel.hasToken()
+        checkToken()
     }
     
     private var hasToken: Bool!
@@ -45,7 +52,25 @@ class ShotsViewController: UIViewController {
                 
                 presentViewController(loginViewController, animated: true, completion: nil)
             }
+        }else{
+            
+            print("Hura! We have a token in SHOTS")
         }
     }
+}
+
+extension ShotsViewController: ShotsViewModelDelegate {
+    
+    func didEndAuth(success: Bool) {
+        
+        print("We have a token in login with status \(success)")
+        
+        hasToken = success
+        
+        if success {
+            dismissViewControllerAnimated(true, completion: nil)
+        }
+    }
+    
 }
 

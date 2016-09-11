@@ -9,7 +9,8 @@
 import Foundation
 
 protocol ShotsViewModelDelegate {
-    //TODO: add connection status
+    func didEndAuth(success: Bool)
+
 }
 
 class ShotsViewModel {
@@ -17,7 +18,9 @@ class ShotsViewModel {
     private let connectionManager = ConnectionManager.sharedInstance
     private let dataManager = DataManager.sharedInstance
     
+    var delegate: ShotsViewModelDelegate?
     var token: String?
+    
     var shots: [Shot]!{
         get{
             return dataManager.savedShots()
@@ -27,11 +30,12 @@ class ShotsViewModel {
     init(withToken token: String?){
         
         self.token = token
+        dataManager.delegate = self
     }
     
     func hasToken() -> Bool {
         
-        if let currentToken = token {
+        if let currentToken = dataManager.savedToken() {
             return !currentToken.isEmpty
         }
         
@@ -42,5 +46,18 @@ class ShotsViewModel {
         connectionManager.fetchShots(){
             completion()
         }
+    }
+    
+    func logout() {
+        dataManager.clearToken()
+    }
+}
+
+extension ShotsViewModel: DataManagerDelegate {
+    
+    func tokenDidSet(success: Bool) {
+        print("Token did set with \(success)")
+        
+        delegate?.didEndAuth(true)
     }
 }

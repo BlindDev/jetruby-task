@@ -10,7 +10,7 @@ import Foundation
 import RealmSwift
 
 protocol DataManagerDelegate {
-    func tokenDidSet()
+    func tokenDidSet(success: Bool)
 }
 
 class Token: Object {
@@ -69,15 +69,34 @@ class DataManager {
     }
     
     func updateToken(token: String?) {
-        
-        guard let newToken = token else{
+                
+        guard let newTokenString = token else{
+            delegate?.tokenDidSet(false)
             return
         }
         
-        if let token = realm.objects(Token).first {
+        if let tokenObject = realm.objects(Token).first {
             try! realm.write {
-                token.accessToken = newToken
-                delegate?.tokenDidSet()
+                tokenObject.accessToken = newTokenString
+            }
+        }else{
+            
+            let newTokenObject = Token()
+            newTokenObject.accessToken = newTokenString
+            
+            try! realm.write {
+                realm.add(newTokenObject)
+            }
+        }
+        
+        delegate?.tokenDidSet(true)
+
+    }
+    
+    func clearToken() {
+        if let tokenObject = realm.objects(Token).first {
+            try! realm.write {
+                realm.delete(tokenObject)
             }
         }
     }
