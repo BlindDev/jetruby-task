@@ -28,6 +28,7 @@ class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        view.backgroundColor = StyleKit.charcoalColor
 
         webView = UIWebView(frame: view.bounds)
         webView.autoresizingMask = .FlexibleHeight
@@ -58,5 +59,14 @@ extension LoginViewController: UIWebViewDelegate {
         
         UIApplication.sharedApplication().networkActivityIndicatorVisible = false
 
+    }
+}
+
+class LoginButton: UIButton {
+    override func drawRect(rect: CGRect) {
+        print("draw button")
+        StyleKit.drawLoginButtonSymbol(buttonFrame: bounds)
+        
+        tintColor = UIColor.whiteColor()
     }
 }

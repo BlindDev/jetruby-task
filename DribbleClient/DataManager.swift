@@ -10,7 +10,7 @@ import Foundation
 import RealmSwift
 
 protocol DataManagerDelegate {
-    func tokenDidSet(success: Bool)
+    func tokenNewValue(token: String?)
 }
 
 class Token: Object {
@@ -71,7 +71,7 @@ class DataManager {
     func updateToken(token: String?) {
                 
         guard let newTokenString = token else{
-            delegate?.tokenDidSet(false)
+            delegate?.tokenNewValue(nil)
             return
         }
         
@@ -89,8 +89,7 @@ class DataManager {
             }
         }
         
-        delegate?.tokenDidSet(true)
-
+        delegate?.tokenNewValue(token)
     }
     
     func clearToken() {
@@ -105,7 +104,7 @@ class DataManager {
         
         let results = realm.objects(Shot).sorted("created", ascending: true)
         
-        var shots: [Shot]!
+        var shots: [Shot] = []
         
         for shot in results {
             shots.append(shot)

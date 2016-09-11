@@ -18,6 +18,7 @@ class ShotsViewController: UIViewController {
             //TODO: update data, refresh data through model
         }
     }
+    @IBOutlet weak var tableView: UITableView!
     
     @IBAction func logoutAction(sender: UIBarButtonItem) {
         viewModel.logout()
@@ -30,8 +31,9 @@ class ShotsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
-//        checkToken()
+        navigationItem.title = "Dribbble"
+        
+        tableView.backgroundColor = StyleKit.charcoalColor
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -56,6 +58,18 @@ class ShotsViewController: UIViewController {
             
             print("Hura! We have a token in SHOTS")
         }
+    }
+}
+
+extension ShotsViewController: UITableViewDataSource {
+    
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return viewModel.shots.count
+    }
+    
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        
+        return UITableViewCell(style: .Default, reuseIdentifier: "Cell")
     }
 }
 

@@ -35,7 +35,7 @@ class ShotsViewModel {
     
     func hasToken() -> Bool {
         
-        if let currentToken = dataManager.savedToken() {
+        if let currentToken = token {
             return !currentToken.isEmpty
         }
         
@@ -55,9 +55,9 @@ class ShotsViewModel {
 
 extension ShotsViewModel: DataManagerDelegate {
     
-    func tokenDidSet(success: Bool) {
-        print("Token did set with \(success)")
+    func tokenNewValue(token: String?) {
+        self.token = token
         
-        delegate?.didEndAuth(true)
+        delegate?.didEndAuth(hasToken())
     }
 }
