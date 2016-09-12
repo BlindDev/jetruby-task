@@ -19,12 +19,22 @@ class ShotsViewModel {
     private let dataManager = DataManager.sharedInstance
     
     var delegate: ShotsViewModelDelegate?
-    var token: String?
     
-    var shots: [Shot]!{
-        get{
-            return dataManager.savedShots()
+    private var token: String?
+    
+    private var cellsModels = [ShotsTableViewCellViewModel]()
+    
+    func numberOfShots() -> Int {
+        return cellsModels.count
+    }
+    
+    func cellViewModel(atIndex index: Int) -> ShotsTableViewCellViewModel? {
+        
+        guard index < cellsModels.count else {
+            return nil
         }
+        
+        return cellsModels[index]
     }
     
     init(withToken token: String?){
@@ -45,7 +55,16 @@ class ShotsViewModel {
     func updateShots(completion: () -> ()) {
         
         if let currentToken = token {
-            connectionManager.fetchShots(currentToken, completion: completion)
+            connectionManager.fetchShots(withToken: currentToken){ (savedShots) in
+                
+                self.cellsModels.removeAll()
+                
+                for shot in savedShots {
+                    let newModel = ShotsTableViewCellViewModel(withShot: shot)
+                    self.cellsModels.append(newModel)
+                }
+                completion()
+            }
         }
     }
     

@@ -19,11 +19,12 @@ class ConnectionManager {
     private let scope = "public+write+comment"
     private let mainLink = "https://api.dribbble.com/v1"
     
-    func fetchShots(token: String, completion:()->()) {
+    func fetchShots(withToken token: String, completion:(savedShots: [Shot])->()) {
         
         let link = mainLink + "/shots"
-
+        
         let parameters = [
+            "list" : "attachments+debuts+playoffs+rebounds+teams",
             "per_page" : "100",
             "access_token" : token
         ]
@@ -38,7 +39,7 @@ class ConnectionManager {
 
             dataManager.updateShots(shots)
 
-            completion()
+            completion(savedShots: dataManager.savedShots())
         }
     }
     
@@ -54,6 +55,9 @@ class ConnectionManager {
         //POST /shots/:shot/comments
         
     }
+    
+//    Like a shot
+//    POST /shots/:id/like
     
     func getConnection(link: String, parameters: [String: String], completion: (result: AnyObject)->()) {
         

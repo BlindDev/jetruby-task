@@ -34,6 +34,7 @@ class ShotsViewController: UIViewController {
         navigationItem.title = "Dribbble"
         
         tableView.backgroundColor = StyleKit.charcoalColor
+        tableView.estimatedRowHeight = tableView.frame.height / 2
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -68,16 +69,18 @@ class ShotsViewController: UIViewController {
 extension ShotsViewController: UITableViewDataSource {
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.shots.count
+        return viewModel.numberOfShots()
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCellWithIdentifier("Cell")
+        var cell = tableView.dequeueReusableCellWithIdentifier("Cell") as? ShotsTableViewCell
         
-        cell!.textLabel?.text = viewModel.shots[indexPath.row].title
-                
-        cell!.detailTextLabel?.text = viewModel.shots[indexPath.row].created?.convertedString
+        if cell == nil {
+            cell = ShotsTableViewCell(style: .Default, reuseIdentifier: "Cell")
+        }
+        
+        cell?.cellViewModel = viewModel.cellViewModel(atIndex: indexPath.row)
         
         return cell!
     }
