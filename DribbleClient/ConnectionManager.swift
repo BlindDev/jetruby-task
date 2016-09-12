@@ -9,30 +9,35 @@
 import Foundation
 import Alamofire
 
-protocol ConnectionDelegate {
-    
-}
-
 class ConnectionManager {
-    //YYYY-MM-DDTHH:MM:SSZ
     //GET https://api.dribbble.com/v1/user?access_token=...
     
     static let sharedInstance = ConnectionManager()
     
     private let clientID = "b2d5805b5067740cdb08b9c5f8678554aa46217f53a80fe77efb0646df48bc19"
     private let clientSecret = "faeea2937f32639cd3a25b6be70926246bbb0dea8edc4f4adfae43a4f16993c8"
-    private let scope = "comment"
+    private let scope = "public+write+comment"
     private let mainLink = "https://api.dribbble.com/v1"
     
-    func fetchShots(completion:()->()) {
+    func fetchShots(token: String, completion:()->()) {
         
         let link = mainLink + "/shots"
 
         let parameters = [
-            "list" : "attachments"
+            "per_page" : "100",
+            "access_token" : token
         ]
         
-        getConnection(link, parameters: parameters) {
+        getConnection(link, parameters: parameters) { (result) in
+            
+            let serializer = Serializer(responseValue: result)
+            
+            let shots = serializer.responseShots()
+            
+            let dataManager = DataManager.sharedInstance
+
+            dataManager.updateShots(shots)
+
             completion()
         }
     }
@@ -50,19 +55,39 @@ class ConnectionManager {
         
     }
     
-    func getConnection(link: String, parameters: [String: String], completion: ()->()) {
+    func getConnection(link: String, parameters: [String: String], completion: (result: AnyObject)->()) {
         
-        
+        Alamofire.request(.GET, link, parameters: parameters)
+            .responseJSON { response in
+                
+//                print("Response: \(response.request)")
+                
+                switch response.result {
+                case .Success:
+                    if let value = response.result.value {
+                        
+                        completion(result: value)
+                    }
+                    
+                case .Failure(let error):
+                    print(error)
+                }
+        }
     }
     
-//    func startLogin() {
-//        
-//        let authLink = "https://dribbble.com/oauth/authorize?client_id=\(clientID)&scope=\(scope)&state=JetRuby_STATE"
-//        
-//        if let authURL = NSURL(string: authLink) {
-//            UIApplication.sharedApplication().openURL(authURL)
-//        }
-//    }
+    func postConnection(link: String, parameters: [String: String], completion: (result: AnyObject?)->()){
+        
+        Alamofire.request(.POST, link, parameters: parameters)
+            .responseJSON { response in
+                switch response.result {
+                case .Success:
+//                    print(response.result.value)
+                    completion(result: response.result.value)
+                case .Failure(let error):
+                    print(error)
+                }
+        }
+    }
     
     var loginURL: NSURL? {
         get{
@@ -100,26 +125,21 @@ class ConnectionManager {
                 "code": receivedCode
             ]
             
-            Alamofire.request(.POST, tokenLink, parameters: tokenParameters)
-                .responseJSON { response in
+            
+            postConnection(tokenLink, parameters: tokenParameters) { (result) in
+               
+                if let value = result {
+                    let serializer = Serializer(responseValue: value)
+                    
+                    let token = serializer.responseAuthToken()
                     let dataManager = DataManager.sharedInstance
 
-                    switch response.result {
-                    case .Success:
-                        if let value = response.result.value {
-                            
-                            let serializer = Serializer(responseValue: value)
-                            
-                            let token = serializer.responseAuthToken()
-                            
-                            
-                            dataManager.updateToken(token)
-                        }
-                        
-                    case .Failure(let error):
-                        print(error)
-                        dataManager.updateToken(nil)
-                    }
+                    dataManager.updateToken(token)
+                }
+//                else{
+//                    dataManager.updateToken(nil)
+//                }
+
             }
         }
     }

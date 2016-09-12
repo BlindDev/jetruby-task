@@ -43,12 +43,14 @@ class ShotsViewModel {
     }
     
     func updateShots(completion: () -> ()) {
-        connectionManager.fetchShots(){
-            completion()
+        
+        if let currentToken = token {
+            connectionManager.fetchShots(currentToken, completion: completion)
         }
     }
     
     func logout() {
+        token = nil
         dataManager.clearToken()
     }
 }

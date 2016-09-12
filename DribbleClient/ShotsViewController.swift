@@ -56,7 +56,11 @@ class ShotsViewController: UIViewController {
             }
         }else{
             
-            print("Hura! We have a token in SHOTS")
+            UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+            viewModel.updateShots(){
+                UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+                self.tableView.reloadData()
+            }
         }
     }
 }
@@ -69,7 +73,13 @@ extension ShotsViewController: UITableViewDataSource {
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-        return UITableViewCell(style: .Default, reuseIdentifier: "Cell")
+        let cell = tableView.dequeueReusableCellWithIdentifier("Cell")
+        
+        cell!.textLabel?.text = viewModel.shots[indexPath.row].title
+                
+        cell!.detailTextLabel?.text = viewModel.shots[indexPath.row].created?.convertedString
+        
+        return cell!
     }
 }
 

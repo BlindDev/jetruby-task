@@ -64,7 +64,6 @@ extension LoginViewController: UIWebViewDelegate {
 
 class LoginButton: UIButton {
     override func drawRect(rect: CGRect) {
-        print("draw button")
         StyleKit.drawLoginButtonSymbol(buttonFrame: bounds)
         
         tintColor = UIColor.whiteColor()

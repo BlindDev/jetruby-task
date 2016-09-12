@@ -43,7 +43,6 @@ class User: IndexedObject {
     dynamic var followers_count: Int = 0
     dynamic var likes_count: Int = 0
     dynamic var shots_count: Int = 0
-
 }
 
 class Images: Object {
@@ -71,7 +70,7 @@ class DataManager {
     func updateToken(token: String?) {
                 
         guard let newTokenString = token else{
-            delegate?.tokenNewValue(nil)
+//            delegate?.tokenNewValue(nil)
             return
         }
         
@@ -113,10 +112,19 @@ class DataManager {
         return shots
     }
     
-    func saveNewShot(shot: Shot){
+    func updateShots(shots:[Shot]) {
         
-        try! realm.write {
-            realm.add(shot, update: true)
+        for shot in shots{
+            try! realm.write {
+                realm.add(shot, update: true)
+            }
         }
     }
+    
+//    func saveNewShot(shot: Shot){
+//        
+//        try! realm.write {
+//            realm.add(shot, update: true)
+//        }
+//    }
 }
