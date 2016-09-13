@@ -25,10 +25,7 @@ class ShotsTableViewCell: UITableViewCell {
             
             if let url = NSURL(string: cellViewModel.shotImageLink) {
                 
-                shotView.sd_setImageWithURL(url) { (image, error, SDImageCacheType, url) in
-                    
-                    //TODO: add load indicator
-                }
+                shotView.sd_setImageWithURL(url)
             }
             
             cellViewModel.shotLikeAction(ShotLikeAction.CHECK) { (result) in
@@ -41,6 +38,7 @@ class ShotsTableViewCell: UITableViewCell {
         super.awakeFromNib()
         
         backgroundColor = UIColor.clearColor()
+        shotView.contentMode = .ScaleAspectFit
     }
 
     override func setSelected(selected: Bool, animated: Bool) {
@@ -79,8 +77,6 @@ class LikeButton: UIButton {
     
     override func drawRect(rect: CGRect) {
         
-        let title = shotLiked == true ? "U" : "L"
-        
-        setTitle(title, forState: .Normal)
+        StyleKit.drawLikeButtonHeart(heartFrame: bounds, shotLiked: shotLiked)
     }
 }

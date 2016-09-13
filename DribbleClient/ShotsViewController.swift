@@ -59,9 +59,15 @@ class ShotsViewController: UIViewController {
         }else{
             
             MBProgressHUD.showHUDAddedTo(view, animated: true)
+            
+            let hud = MBProgressHUD(forView: view)
+            hud.labelText = "Loading shots"
+            
+            hud.show(true)
             UIApplication.sharedApplication().networkActivityIndicatorVisible = true
             viewModel.updateShots(){
-                MBProgressHUD.hideHUDForView(self.view, animated: true)
+
+                hud.hide(true)
                 UIApplication.sharedApplication().networkActivityIndicatorVisible = false
                 self.tableView.reloadData()
             }

@@ -63,7 +63,6 @@
                                                         <constraint firstAttribute="width" constant="44" id="64y-ka-klM"/>
                                                         <constraint firstAttribute="height" constant="44" id="ID1-Gx-gHk"/>
                                                     </constraints>
-                                                    <state key="normal" title="Button"/>
                                                     <connections>
                                                         <action selector="likeAction:" destination="Csd-DR-bdi" eventType="touchUpInside" id="ue7-R2-1GN"/>
                                                     </connections>

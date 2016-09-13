@@ -15,15 +15,21 @@ follow Apple HIG.
 Once a user has launched the app, the first thing he should see, if not registered, is the login screen. The “Login” button should be on the login screen. By pressing the button, a user should go through a standard OAuth authorization. Upon completion, the login screen should be hidden.
 
 2. Shots viewing
-When authorized, a user should be able to see the screen for viewing shots. The screen must include the list of recent shots with their titles, brief descriptions and authors. A user should be able to like shots. By clicking the author's name, a user should open the screen showing the author’s profile. To comment a shot, a user has to click the cell which should open the screen for commenting. The Logout button should be located in the left part of the screen. By pressing the button, a user should go to the Login screen.
+When authorized, a user should be able to see the screen for viewing shots. - done
+The screen must include the list of recent shots with their titles, brief descriptions and authors. - done
+A user should be able to like shots. - done
+By clicking the author's name, a user should open the screen showing the author’s profile.
+To comment a shot, a user has to click the cell which should open the screen for commenting.
+The Logout button should be located in the left part of the screen. By pressing the button, a user should go to the Login screen. - done
+
 Requirements for the screen:
-● Ignore animated shots.
-● Use hidpi images, if available.
+● Ignore animated shots. - done
+● Use hidpi images, if available. - done
 ● Add offline shot caching. After a user has relaunched the app, he should
-see the downloaded shots.
+see the downloaded shots. - need to add checking database
 ● Each shot must have a title and a description. The description must be no
 longer than 2 lines.
-● The size of the shot cell should be equal to half of the screen height.
+● The size of the shot cell should be equal to half of the screen height. - done
 ● Pictures must be displayed according to proportions.
 ● Use the pull­down­to­refresh feature to get the latest shots.
 
