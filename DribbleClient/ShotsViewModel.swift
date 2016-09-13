@@ -10,17 +10,13 @@ import Foundation
 
 protocol ShotsViewModelDelegate {
     func didEndAuth(success: Bool)
-
 }
 
 class ShotsViewModel {
     
-    private let connectionManager = ConnectionManager.sharedInstance
     private let dataManager = DataManager.sharedInstance
     
     var delegate: ShotsViewModelDelegate?
-    
-    private var token: String?
     
     private var cellsModels = [ShotsTableViewCellViewModel]()
     
@@ -37,15 +33,13 @@ class ShotsViewModel {
         return cellsModels[index]
     }
     
-    init(withToken token: String?){
-        
-        self.token = token
+    init(){
         dataManager.delegate = self
     }
     
     func hasToken() -> Bool {
         
-        if let currentToken = token {
+        if let currentToken = dataManager.savedToken() {
             return !currentToken.isEmpty
         }
         
@@ -54,8 +48,8 @@ class ShotsViewModel {
     
     func updateShots(completion: () -> ()) {
         
-        if let currentToken = token {
-            connectionManager.fetchShots(withToken: currentToken){ (savedShots) in
+        if hasToken() {
+            ConnectionManager.sharedInstance.fetchShots(){ (savedShots) in
                 
                 self.cellsModels.removeAll()
                 
@@ -69,16 +63,13 @@ class ShotsViewModel {
     }
     
     func logout() {
-        token = nil
         dataManager.clearToken()
     }
 }
 
 extension ShotsViewModel: DataManagerDelegate {
     
-    func tokenNewValue(token: String?) {
-        self.token = token
-        
+    func tokenDidSet() {
         delegate?.didEndAuth(hasToken())
     }
 }

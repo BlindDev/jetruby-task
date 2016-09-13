@@ -30,7 +30,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if let navController = self.window?.rootViewController as? UINavigationController {
             
             if let shotsController = navController.viewControllers.first as? ShotsViewController {
-                shotsController.viewModel = ShotsViewModel(withToken: dataManager.savedToken())
+                shotsController.viewModel = ShotsViewModel()
             }
         }
         

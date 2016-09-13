@@ -18,32 +18,71 @@ class ConnectionManager {
     private let clientSecret = "faeea2937f32639cd3a25b6be70926246bbb0dea8edc4f4adfae43a4f16993c8"
     private let scope = "public+write+comment"
     private let mainLink = "https://api.dribbble.com/v1"
+    private var token: String? {
+        get{
+            return DataManager.sharedInstance.savedToken()
+        }
+    }
     
-    func fetchShots(withToken token: String, completion:(savedShots: [Shot])->()) {
+    func fetchShots(completion:(savedShots: [Shot])->()) {
+        
+        guard let tokenString = token else{
+            return
+        }
         
         let link = mainLink + "/shots"
         
         let parameters = [
             "list" : "attachments+debuts+playoffs+rebounds+teams",
             "per_page" : "100",
-            "access_token" : token
+            "access_token" : tokenString
         ]
         
         getConnection(link, parameters: parameters) { (result) in
             
-            let serializer = Serializer(responseValue: result)
-            
-            let shots = serializer.responseShots()
-            
-            let dataManager = DataManager.sharedInstance
-
-            dataManager.updateShots(shots)
-
-            completion(savedShots: dataManager.savedShots())
+            if  let currentResult = result {
+                
+                let serializer = Serializer(responseValue: currentResult)
+                
+                let shots = serializer.responseShots()
+                
+                let dataManager = DataManager.sharedInstance
+                
+                dataManager.updateShots(shots)
+                
+                completion(savedShots: dataManager.savedShots())
+            }
         }
     }
     
-    func getUserInfo(withToken token: String) {
+    func ckeckShotLike(shotID: Int, completion:() ->()) {
+        
+        guard let tokenString = token else{
+            return
+        }
+        
+        let link = mainLink + "/shots/:\(shotID)/like"
+        
+        let parameters = [
+            "access_token" : tokenString
+        ]
+
+        getConnection(link, parameters: parameters) { (result) in
+            
+            if  let currentResult = result {
+                
+                let serializer = Serializer(responseValue: currentResult)
+                
+                let dataManager = DataManager.sharedInstance
+                
+                dataManager.updateShotLikeByID(shotID, liked: serializer.responseShotHasLikeDate())
+                
+                completion()
+            }
+        }
+    }
+    
+    func getUserInfo() {
         
     }
     
@@ -53,45 +92,10 @@ class ConnectionManager {
     
     func createComment() {
         //POST /shots/:shot/comments
-        
     }
     
 //    Like a shot
 //    POST /shots/:id/like
-    
-    func getConnection(link: String, parameters: [String: String], completion: (result: AnyObject)->()) {
-        
-        Alamofire.request(.GET, link, parameters: parameters)
-            .responseJSON { response in
-                
-//                print("Response: \(response.request)")
-                
-                switch response.result {
-                case .Success:
-                    if let value = response.result.value {
-                        
-                        completion(result: value)
-                    }
-                    
-                case .Failure(let error):
-                    print(error)
-                }
-        }
-    }
-    
-    func postConnection(link: String, parameters: [String: String], completion: (result: AnyObject?)->()){
-        
-        Alamofire.request(.POST, link, parameters: parameters)
-            .responseJSON { response in
-                switch response.result {
-                case .Success:
-//                    print(response.result.value)
-                    completion(result: response.result.value)
-                case .Failure(let error):
-                    print(error)
-                }
-        }
-    }
     
     var loginURL: NSURL? {
         get{
@@ -128,8 +132,7 @@ class ConnectionManager {
                 "client_secret": clientSecret,
                 "code": receivedCode
             ]
-            
-            
+                        
             postConnection(tokenLink, parameters: tokenParameters) { (result) in
                
                 if let value = result {
@@ -140,11 +143,42 @@ class ConnectionManager {
 
                     dataManager.updateToken(token)
                 }
-//                else{
-//                    dataManager.updateToken(nil)
-//                }
-
             }
+        }
+    }
+    
+    func getConnection(link: String, parameters: [String: String], completion: (result: AnyObject?)->()) {
+        
+        Alamofire.request(.GET, link, parameters: parameters)
+            .responseJSON { response in
+                
+                print("Response: \(response.request)")
+                
+                switch response.result {
+                case .Success:
+                    if let value = response.result.value {
+                        
+                        completion(result: value)
+                    }
+                    
+                case .Failure(let error):
+                    print(error)
+                    completion(result: nil)
+                }
+        }
+    }
+    
+    func postConnection(link: String, parameters: [String: String], completion: (result: AnyObject?)->()){
+        
+        Alamofire.request(.POST, link, parameters: parameters)
+            .responseJSON { response in
+                switch response.result {
+                case .Success:
+                    print(response.request)
+                    completion(result: response.result.value)
+                case .Failure(let error):
+                    print(error)
+                }
         }
     }
 }

@@ -10,7 +10,7 @@ import Foundation
 import RealmSwift
 
 protocol DataManagerDelegate {
-    func tokenNewValue(token: String?)
+    func tokenDidSet()
 }
 
 class Token: Object {
@@ -43,6 +43,7 @@ class User: IndexedObject {
     dynamic var followers_count: Int = 0
     dynamic var likes_count: Int = 0
     dynamic var shots_count: Int = 0
+
 }
 
 class Images: Object {
@@ -88,7 +89,7 @@ class DataManager {
             }
         }
         
-        delegate?.tokenNewValue(token)
+        delegate?.tokenDidSet()
     }
     
     func clearToken() {
@@ -121,10 +122,15 @@ class DataManager {
         }
     }
     
-//    func saveNewShot(shot: Shot){
-//        
-//        try! realm.write {
-//            realm.add(shot, update: true)
-//        }
-//    }
+        func updateShotLikeByID(shotID: Int, liked: Bool) {
+    
+            let shots = realm.objects(Shot).filter{$0.id == shotID}
+    
+            if let shot = shots.first {
+                try! realm.write {
+                    shot.liked = liked
+                }
+            }
+        }
+
 }

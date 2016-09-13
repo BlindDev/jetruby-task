@@ -31,6 +31,17 @@ class Serializer {
         return accessString
     }
     
+    func responseShotHasLikeDate() -> Bool {
+        
+        print("Serialized like \(json)")
+        
+        guard let dataString = json?["created_at"].string else{
+            return false
+        }
+        
+        return !dataString.isEmpty
+    }
+    
     func responseShots() ->[Shot] {
         
         guard let shotsArray = json?.array else{

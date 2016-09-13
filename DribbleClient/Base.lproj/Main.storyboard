@@ -57,7 +57,7 @@
                                                     </constraints>
                                                     <state key="normal" title="Button"/>
                                                 </button>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UbS-4u-2Rc">
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UbS-4u-2Rc" customClass="LikeButton" customModule="DribbleClient" customModuleProvider="target">
                                                     <rect key="frame" x="548" y="8" width="44" height="44"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="44" id="64y-ka-klM"/>
@@ -86,7 +86,7 @@
                                         <connections>
                                             <outlet property="descriptionLabel" destination="5M0-ML-Ybn" id="WlP-ey-VhP"/>
                                             <outlet property="likeButton" destination="UbS-4u-2Rc" id="M2p-yg-KmS"/>
-                                            <outlet property="shotView" destination="PCs-5q-xhL" id="QR9-VR-pAm"/>
+                                            <outlet property="shotView" destination="vxN-vx-KEb" id="7XS-nF-Wfy"/>
                                             <outlet property="titleLabel" destination="lnk-CJ-8AB" id="Ksp-MZ-i2e"/>
                                             <outlet property="userButton" destination="QXU-p6-RYM" id="YaR-F3-Gxa"/>
                                         </connections>

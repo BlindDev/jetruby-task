@@ -11,7 +11,7 @@ follow Apple HIG.
 ● Ensure support of all the iOS versions starting from iOS 8.
 ● Ensure support of all the iPhones starting from iPhone 4s.
 
-1. Log in
+1. Log in - done
 Once a user has launched the app, the first thing he should see, if not registered, is the login screen. The “Login” button should be on the login screen. By pressing the button, a user should go through a standard OAuth authorization. Upon completion, the login screen should be hidden.
 
 2. Shots viewing

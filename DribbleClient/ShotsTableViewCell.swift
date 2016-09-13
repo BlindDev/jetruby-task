@@ -7,14 +7,15 @@
 //
 
 import UIKit
+import SDWebImage
 
 class ShotsTableViewCell: UITableViewCell {
 
-    @IBOutlet weak var shotView: UIView!
+    @IBOutlet weak var shotView: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var descriptionLabel: UILabel!
     @IBOutlet weak var userButton: UIButton!
-    @IBOutlet weak var likeButton: UIButton!
+    @IBOutlet weak var likeButton: LikeButton!
     
     weak var cellViewModel: ShotsTableViewCellViewModel!{
         didSet{
@@ -22,12 +23,34 @@ class ShotsTableViewCell: UITableViewCell {
             titleLabel.text = shot.title
             descriptionLabel.text = shot.desc
             userButton.setTitle(shot.user?.username, forState: .Normal)
+            
+            var link: String!
+            
+            if let hidpi = shot.images?.hidpi {
+                link = hidpi
+            }else{
+                link = shot.images?.normal
+            }
+            
+            if let url = NSURL(string: link) {
+                
+                shotView.sd_setImageWithURL(url) { (image, error, SDImageCacheType, url) in
+                    
+                    //TODO: add load indicator
+                }
+            }
+            
+            //TODO: add like checking
+            cellViewModel.checkLike(){
+                self.likeButton.shotLiked = shot.liked
+            }
         }
     }
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+        
+        backgroundColor = UIColor.clearColor()
     }
 
     override func setSelected(selected: Bool, animated: Bool) {
@@ -36,4 +59,20 @@ class ShotsTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
 
+}
+
+class LikeButton: UIButton {
+    
+    var shotLiked: Bool! = false {
+        didSet{
+            setNeedsDisplay()
+        }
+    }
+    
+    override func drawRect(rect: CGRect) {
+        
+        let title = shotLiked == true ? "U" : "L"
+        
+        setTitle(title, forState: .Normal)
+    }
 }

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MBProgressHUD
 
 class ShotsViewController: UIViewController {
 
@@ -57,8 +58,10 @@ class ShotsViewController: UIViewController {
             }
         }else{
             
+            MBProgressHUD.showHUDAddedTo(view, animated: true)
             UIApplication.sharedApplication().networkActivityIndicatorVisible = true
             viewModel.updateShots(){
+                MBProgressHUD.hideHUDForView(self.view, animated: true)
                 UIApplication.sharedApplication().networkActivityIndicatorVisible = false
                 self.tableView.reloadData()
             }
