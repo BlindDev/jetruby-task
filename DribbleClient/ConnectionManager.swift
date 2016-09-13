@@ -38,7 +38,7 @@ class ConnectionManager {
             "access_token" : tokenString
         ]
         
-        getConnection(link, parameters: parameters) { (result) in
+        startConnection(withMethod: .GET, link:link, parameters: parameters) { (result) in
             
             if  let currentResult = result {
                 
@@ -67,7 +67,7 @@ class ConnectionManager {
             "access_token" : tokenString
         ]
 
-        getConnection(link, parameters: parameters) { (result) in
+        startConnection(withMethod: .GET, link:link, parameters: parameters) { (result) in
             
             if  let currentResult = result {
                 
@@ -133,7 +133,7 @@ class ConnectionManager {
                 "code": receivedCode
             ]
                         
-            postConnection(tokenLink, parameters: tokenParameters) { (result) in
+            startConnection(withMethod: .POST, link: tokenLink, parameters: tokenParameters) { (result) in
                
                 if let value = result {
                     let serializer = Serializer(responseValue: value)
@@ -147,9 +147,9 @@ class ConnectionManager {
         }
     }
     
-    func getConnection(link: String, parameters: [String: String], completion: (result: AnyObject?)->()) {
+    private func startConnection(withMethod method: Alamofire.Method, link: String, parameters: [String: String], completion: (result: AnyObject?)->()) {
         
-        Alamofire.request(.GET, link, parameters: parameters)
+        Alamofire.request(method, link, parameters: parameters)
             .responseJSON { response in
                 
                 print("Response: \(response.request)")
@@ -164,20 +164,6 @@ class ConnectionManager {
                 case .Failure(let error):
                     print(error)
                     completion(result: nil)
-                }
-        }
-    }
-    
-    func postConnection(link: String, parameters: [String: String], completion: (result: AnyObject?)->()){
-        
-        Alamofire.request(.POST, link, parameters: parameters)
-            .responseJSON { response in
-                switch response.result {
-                case .Success:
-                    print(response.request)
-                    completion(result: response.result.value)
-                case .Failure(let error):
-                    print(error)
                 }
         }
     }
