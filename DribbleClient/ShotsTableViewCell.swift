@@ -31,7 +31,6 @@ class ShotsTableViewCell: UITableViewCell {
                 }
             }
             
-            //TODO: add like checking
             cellViewModel.shotLikeAction(ShotLikeAction.CHECK) { (result) in
                  self.likeButton.shotLiked = result
             }
@@ -49,7 +48,18 @@ class ShotsTableViewCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
-
+    
+    @IBAction func likeAction(sender: LikeButton) {
+        
+        let action = sender.shotLiked == true ? ShotLikeAction.UNLIKE : ShotLikeAction.LIKE
+        
+        sender.enabled = false
+        
+        cellViewModel.shotLikeAction(action) { (result) in
+            sender.shotLiked = result
+            sender.enabled = true
+        }
+    }
 }
 
 class LikeButton: UIButton {
@@ -64,6 +74,7 @@ class LikeButton: UIButton {
         super.awakeFromNib()
         
         setTitleColor(StyleKit.pinkColor, forState: .Normal)
+        setTitleColor(UIColor.magentaColor(), forState: .Disabled)
     }
     
     override func drawRect(rect: CGRect) {

@@ -76,7 +76,7 @@ class ConnectionManager {
             return
         }
         
-        let link = mainLink + "/shots/:\(shotID)/like"
+        let link = mainLink + "/shots/\(shotID)/like"
         
         let parameters = [
             "access_token" : tokenString
@@ -166,9 +166,7 @@ class ConnectionManager {
         
         Alamofire.request(method, link, parameters: parameters)
             .responseJSON { response in
-                
-                print("Response: \(response.request)")
-                
+                                
                 switch response.result {
                 case .Success:
                     if let value = response.result.value {
