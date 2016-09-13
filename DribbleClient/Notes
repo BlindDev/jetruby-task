@@ -28,9 +28,9 @@ Requirements for the screen:
 ● Add offline shot caching. After a user has relaunched the app, he should
 see the downloaded shots. - need to add checking database
 ● Each shot must have a title and a description. The description must be no
-longer than 2 lines.
+longer than 2 lines. - done
 ● The size of the shot cell should be equal to half of the screen height. - done
-● Pictures must be displayed according to proportions.
+● Pictures must be displayed according to proportions. - done
 ● Use the pull­down­to­refresh feature to get the latest shots.
 
 3. Shot commenting

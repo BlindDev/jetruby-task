@@ -24,7 +24,8 @@ class ShotsTableViewCellViewModel {
     
     var shotDescription: String!{
         get{
-            return shot.desc
+            
+            return shot.desc.stringByReplacingOccurrencesOfString("<[^>]+>", withString: "", options: .RegularExpressionSearch, range: nil)
         }
     }
     

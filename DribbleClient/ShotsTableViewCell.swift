@@ -8,6 +8,7 @@
 
 import UIKit
 import SDWebImage
+import MBProgressHUD
 
 class ShotsTableViewCell: UITableViewCell {
 
@@ -20,12 +21,17 @@ class ShotsTableViewCell: UITableViewCell {
     weak var cellViewModel: ShotsTableViewCellViewModel!{
         didSet{
             titleLabel.text = cellViewModel.shotTitle
+
             descriptionLabel.text = cellViewModel.shotDescription
+
             userButton.setTitle(cellViewModel.shotUsername, forState: .Normal)
             
+            
             if let url = NSURL(string: cellViewModel.shotImageLink) {
-                
-                shotView.sd_setImageWithURL(url)
+                let hud = MBProgressHUD.showHUDAddedTo(shotView, animated: true)
+                shotView.sd_setImageWithURL(url) { (image, error, casheType, url) in
+                    hud.hide(true)
+                }
             }
             
             cellViewModel.shotLikeAction(ShotLikeAction.CHECK) { (result) in
@@ -39,6 +45,10 @@ class ShotsTableViewCell: UITableViewCell {
         
         backgroundColor = UIColor.clearColor()
         shotView.contentMode = .ScaleAspectFit
+        descriptionLabel.numberOfLines = 3
+        descriptionLabel.lineBreakMode = NSLineBreakMode.ByWordWrapping
+
+        
     }
 
     override func setSelected(selected: Bool, animated: Bool) {

@@ -43,10 +43,9 @@ class User: IndexedObject {
     dynamic var followers_count: Int = 0
     dynamic var likes_count: Int = 0
     dynamic var shots_count: Int = 0
-
 }
 
-class Images: Object {
+class Images: IndexedObject {
     dynamic var hidpi: String = ""
     dynamic var normal: String = ""
     dynamic var teaser: String = ""
@@ -55,13 +54,13 @@ class Images: Object {
 class DataManager {
     static let sharedInstance = DataManager()
     let realm = try! Realm()
-
+    
     var delegate: DataManagerDelegate?
     
     func savedToken() -> String? {
         
         if let token = realm.objects(Token).first {
-//            print("Saved token: \(token.accessToken)")
+            //            print("Saved token: \(token.accessToken)")
             return token.accessToken
         }
         print("No token in DB")
@@ -69,9 +68,9 @@ class DataManager {
     }
     
     func updateToken(token: String?) {
-                
+        
         guard let newTokenString = token else{
-//            delegate?.tokenNewValue(nil)
+            //            delegate?.tokenNewValue(nil)
             return
         }
         
@@ -116,21 +115,20 @@ class DataManager {
     func updateShots(shots:[Shot]) {
         
         for shot in shots{
-            try! realm.write {
+                try! realm.write {
                 realm.add(shot, update: true)
             }
         }
     }
     
-        func updateShotLikeByID(shotID: Int, liked: Bool) {
-    
-            let shots = realm.objects(Shot).filter{$0.id == shotID}
-    
-            if let shot = shots.first {
-                try! realm.write {
-                    shot.liked = liked
-                }
+    func updateShotLikeByID(shotID: Int, liked: Bool) {
+        
+        let shots = realm.objects(Shot).filter{$0.id == shotID}
+        
+        if let shot = shots.first {
+            try! realm.write {
+                shot.liked = liked
             }
         }
-
+    }
 }

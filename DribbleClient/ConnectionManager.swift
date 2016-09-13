@@ -39,7 +39,6 @@ class ConnectionManager {
         let link = mainLink + "/shots"
         
         let parameters = [
-            "list" : "attachments+debuts+playoffs+rebounds+teams",
             "per_page" : "100",
             "access_token" : tokenString
         ]

@@ -48,17 +48,32 @@ class ShotsViewModel {
     
     func updateShots(completion: () -> ()) {
         
-        if hasToken() {
-            ConnectionManager.sharedInstance.fetchShots(){ (savedShots) in
-                
-                self.cellsModels.removeAll()
-                
-                for shot in savedShots {
-                    let newModel = ShotsTableViewCellViewModel(withShot: shot)
-                    self.cellsModels.append(newModel)
-                }
-                completion()
+        //TODO: add checking offline and checking database
+        
+        ConnectionManager.sharedInstance.fetchShots(){ (savedShots) in
+            
+            self.cellsModels.removeAll()
+            
+            for shot in savedShots {
+                let newModel = ShotsTableViewCellViewModel(withShot: shot)
+                self.cellsModels.append(newModel)
             }
+            completion()
+        }
+    }
+    
+    func checkShots(completion: () -> ()) {
+        let shots = dataManager.savedShots()
+        
+        if shots.count > 0 {
+            
+            for shot in shots {
+                let newModel = ShotsTableViewCellViewModel(withShot: shot)
+                self.cellsModels.append(newModel)
+            }
+            completion()
+        }else{
+            updateShots(completion)
         }
     }
     

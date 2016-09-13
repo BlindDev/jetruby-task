@@ -32,22 +32,24 @@
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="vxN-vx-KEb">
                                                     <rect key="frame" x="8" y="8" width="584" height="258"/>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5M0-ML-Ybn">
+                                                <label opaque="NO" userInteractionEnabled="NO" alpha="0.69999999999999996" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="3" baselineAdjustment="alignBaselines" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="5M0-ML-Ybn">
                                                     <rect key="frame" x="8" y="236" width="584" height="30"/>
+                                                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="30" id="yzV-K1-hVR"/>
                                                     </constraints>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lnk-CJ-8AB">
-                                                    <rect key="frame" x="8" y="198" width="584" height="30"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" alpha="0.69999999999999996" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lnk-CJ-8AB">
+                                                    <rect key="frame" x="8" y="206" width="584" height="30"/>
+                                                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="30" id="O5p-ev-apK"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QXU-p6-RYM">
@@ -76,7 +78,7 @@
                                                 <constraint firstItem="vxN-vx-KEb" firstAttribute="leading" secondItem="PCs-5q-xhL" secondAttribute="leadingMargin" id="U6J-Hz-ch0"/>
                                                 <constraint firstItem="lnk-CJ-8AB" firstAttribute="leading" secondItem="PCs-5q-xhL" secondAttribute="leadingMargin" id="V8r-ZE-9HV"/>
                                                 <constraint firstItem="vxN-vx-KEb" firstAttribute="top" secondItem="PCs-5q-xhL" secondAttribute="topMargin" id="a0C-bh-z1R"/>
-                                                <constraint firstItem="5M0-ML-Ybn" firstAttribute="top" secondItem="lnk-CJ-8AB" secondAttribute="bottom" constant="8" id="bNu-3Y-SRQ"/>
+                                                <constraint firstItem="5M0-ML-Ybn" firstAttribute="top" secondItem="lnk-CJ-8AB" secondAttribute="bottom" id="bNu-3Y-SRQ"/>
                                                 <constraint firstItem="5M0-ML-Ybn" firstAttribute="trailing" secondItem="PCs-5q-xhL" secondAttribute="trailingMargin" id="dA5-uj-PJh"/>
                                                 <constraint firstItem="QXU-p6-RYM" firstAttribute="top" secondItem="PCs-5q-xhL" secondAttribute="topMargin" id="eKN-6j-wK9"/>
                                                 <constraint firstItem="vxN-vx-KEb" firstAttribute="trailing" secondItem="PCs-5q-xhL" secondAttribute="trailingMargin" id="mu2-if-NzY"/>
