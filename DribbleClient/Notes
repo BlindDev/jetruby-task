@@ -25,20 +25,18 @@ The Logout button should be located in the left part of the screen. By pressing 
 Requirements for the screen:
 ● Ignore animated shots. - done
 ● Use hidpi images, if available. - done
-● Add offline shot caching. After a user has relaunched the app, he should
-see the downloaded shots. - done
-● Each shot must have a title and a description. The description must be no
-longer than 2 lines. - done
+● Add offline shot caching. After a user has relaunched the app, he should see the downloaded shots. - done
+● Each shot must have a title and a description. The description must be no longer than 2 lines. - done
 ● The size of the shot cell should be equal to half of the screen height. - done
 ● Pictures must be displayed according to proportions. - done
-● Use the pull­down­to­refresh feature to get the latest shots.
+● Use the pull­down­to­refresh feature to get the latest shots. - done
 
 3. Shot commenting
 The screen for commenting should include the list of comments to a shot and a field for commenting. The comment must consist of the author’s name, his picture, the date of commenting and the text itself. The field to enter the text and the send button should be in the bottom of the screen. By pressing the button, a user posts his comment which should be displayed among the other comments.
+
 Requirements for the screen:
 ● The size of the comment cell should depend on the text length.
-● After a user presses the post button, he should be able to see HUD before
-the process of sending the comment to the API ends
+● After a user presses the post button, he should be able to see HUD before the process of sending the comment to the API ends
 ● After the comment has been sent, the screen should return to its initial
 state.
 

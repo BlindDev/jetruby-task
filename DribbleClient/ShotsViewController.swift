@@ -36,6 +36,10 @@ class ShotsViewController: UIViewController {
         
         tableView.backgroundColor = StyleKit.charcoalColor
         tableView.estimatedRowHeight = tableView.frame.height / 2
+        
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(refreshTableView(_:)), forControlEvents: .ValueChanged)
+        tableView.addSubview(refreshControl)
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -43,6 +47,14 @@ class ShotsViewController: UIViewController {
         
         checkToken()
     }
+    
+    func refreshTableView(sender: UIRefreshControl){
+        
+        updateShots()
+        
+        sender.endRefreshing()
+    }
+
     
     private func checkToken() {
      

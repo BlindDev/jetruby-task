@@ -15,7 +15,7 @@ extension String {
             //YYYY-MM-DDTHH:MM:SSZ
 
             let dateFormatter = NSDateFormatter()
-            dateFormatter.dateFormat = "yyyy-MM-ddTHH:MM:SSZ"
+            dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
             
             return dateFormatter.dateFromString(self)
         }
@@ -26,7 +26,7 @@ extension NSDate {
     public var convertedString: String!{
         get{            
             let dateFormatter = NSDateFormatter()
-            dateFormatter.dateFormat = "yyyy MM DD"
+            dateFormatter.dateFormat = "d MM yyyy HH:mm:ss"
             
             return dateFormatter.stringFromDate(self)
         }

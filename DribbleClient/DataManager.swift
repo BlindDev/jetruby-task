@@ -101,11 +101,12 @@ class DataManager {
     
     func savedShots() -> [Shot] {
         
-        let results = realm.objects(Shot).sorted("created", ascending: true)
+        let results = realm.objects(Shot).sorted("created", ascending: false)
         
         var shots: [Shot] = []
         
         for shot in results {
+
             shots.append(shot)
         }
         
@@ -115,7 +116,8 @@ class DataManager {
     func updateShots(shots:[Shot]) {
         
         for shot in shots{
-                try! realm.write {
+            
+            try! realm.write {
                 realm.add(shot, update: true)
             }
         }

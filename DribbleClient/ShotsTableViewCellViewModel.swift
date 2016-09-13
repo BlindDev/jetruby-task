@@ -13,7 +13,7 @@ class ShotsTableViewCellViewModel {
     private var shot: Shot
     
     init(withShot shot: Shot){
-        self.shot = shot
+        self.shot = shot        
     }
     
     var shotTitle: String!{
@@ -25,6 +25,7 @@ class ShotsTableViewCellViewModel {
     var shotDescription: String!{
         get{
             
+//            print(shot.created)
             return shot.desc.stringByReplacingOccurrencesOfString("<[^>]+>", withString: "", options: .RegularExpressionSearch, range: nil)
         }
     }

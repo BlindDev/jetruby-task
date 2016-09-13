@@ -2,8 +2,6 @@ Bad logout
 Need to check id in cycle serialization
 add pagination
 date conversion
-check for latest shots in the top
 try to use unowned self
 check other versions iOS
-need to refresh the cell. Show liked error shots
-bad images quality
+need to refresh the cell. Show error liked shots, duplicates
