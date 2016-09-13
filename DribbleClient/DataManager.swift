@@ -61,7 +61,7 @@ class DataManager {
     func savedToken() -> String? {
         
         if let token = realm.objects(Token).first {
-            print("Saved token: \(token.accessToken)")
+//            print("Saved token: \(token.accessToken)")
             return token.accessToken
         }
         print("No token in DB")

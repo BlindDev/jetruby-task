@@ -10,18 +10,8 @@ import Foundation
 
 class LoginViewModel {
     
-    var hasToken: Bool!
-    
-    let connectionManager = ConnectionManager.sharedInstance
-    
-    required init(withTokenStatus status: Bool) {
-        
-        self.hasToken = status
-    }
-    
     func authURL() -> NSURL? {
-        
-        return connectionManager.loginURL
+        return ConnectionManager.sharedInstance.loginURL
     }
 }
 

@@ -50,7 +50,7 @@ class ShotsViewController: UIViewController {
             
             if let loginViewController = storyboard?.instantiateViewControllerWithIdentifier("LoginViewController") as? LoginViewController {
                 
-                let loginViewModel = LoginViewModel(withTokenStatus: hasToken)
+                let loginViewModel = LoginViewModel()
 
                 loginViewController.viewModel = loginViewModel
                 

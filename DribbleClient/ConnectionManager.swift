@@ -9,6 +9,12 @@
 import Foundation
 import Alamofire
 
+enum ShotLikeAction {
+    case CHECK
+    case LIKE
+    case UNLIKE
+}
+
 class ConnectionManager {
     //GET https://api.dribbble.com/v1/user?access_token=...
     
@@ -55,9 +61,18 @@ class ConnectionManager {
         }
     }
     
-    func ckeckShotLike(shotID: Int, completion:() ->()) {
-        
+    private let shotLikeActionDictionary: [ShotLikeAction : Alamofire.Method] = [
+        .CHECK    : .GET,
+        .LIKE   : .POST,
+        .UNLIKE : .DELETE
+    ]
+    
+    func shotLikeAction(action: ShotLikeAction, shotID: Int, completion:() ->()) {
         guard let tokenString = token else{
+            return
+        }
+        
+        guard let method = shotLikeActionDictionary[action] else{
             return
         }
         
@@ -66,8 +81,8 @@ class ConnectionManager {
         let parameters = [
             "access_token" : tokenString
         ]
-
-        startConnection(withMethod: .GET, link:link, parameters: parameters) { (result) in
+        
+        startConnection(withMethod: method, link:link, parameters: parameters) { (result) in
             
             if  let currentResult = result {
                 

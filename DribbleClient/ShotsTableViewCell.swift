@@ -19,20 +19,11 @@ class ShotsTableViewCell: UITableViewCell {
     
     weak var cellViewModel: ShotsTableViewCellViewModel!{
         didSet{
-            let shot = cellViewModel.shot
-            titleLabel.text = shot.title
-            descriptionLabel.text = shot.desc
-            userButton.setTitle(shot.user?.username, forState: .Normal)
+            titleLabel.text = cellViewModel.shotTitle
+            descriptionLabel.text = cellViewModel.shotDescription
+            userButton.setTitle(cellViewModel.shotUsername, forState: .Normal)
             
-            var link: String!
-            
-            if let hidpi = shot.images?.hidpi {
-                link = hidpi
-            }else{
-                link = shot.images?.normal
-            }
-            
-            if let url = NSURL(string: link) {
+            if let url = NSURL(string: cellViewModel.shotImageLink) {
                 
                 shotView.sd_setImageWithURL(url) { (image, error, SDImageCacheType, url) in
                     
@@ -41,8 +32,8 @@ class ShotsTableViewCell: UITableViewCell {
             }
             
             //TODO: add like checking
-            cellViewModel.checkLike(){
-                self.likeButton.shotLiked = shot.liked
+            cellViewModel.shotLikeAction(ShotLikeAction.CHECK) { (result) in
+                 self.likeButton.shotLiked = result
             }
         }
     }
@@ -67,6 +58,12 @@ class LikeButton: UIButton {
         didSet{
             setNeedsDisplay()
         }
+    }
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
+        setTitleColor(StyleKit.pinkColor, forState: .Normal)
     }
     
     override func drawRect(rect: CGRect) {
