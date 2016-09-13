@@ -65,16 +65,11 @@ class ShotsViewModel {
     func checkShots(completion: () -> ()) {
         let shots = dataManager.savedShots()
         
-        if shots.count > 0 {
-            
-            for shot in shots {
-                let newModel = ShotsTableViewCellViewModel(withShot: shot)
-                self.cellsModels.append(newModel)
-            }
-            completion()
-        }else{
-            updateShots(completion)
+        for shot in shots {
+            let newModel = ShotsTableViewCellViewModel(withShot: shot)
+            self.cellsModels.append(newModel)
         }
+        completion()
     }
     
     func logout() {

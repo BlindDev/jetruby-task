@@ -58,16 +58,29 @@ class ShotsViewController: UIViewController {
             }
         }else{
             
-            let hud = MBProgressHUD.showHUDAddedTo(view, animated: true)
-            hud.labelText = "Loading shots"
-            
-            UIApplication.sharedApplication().networkActivityIndicatorVisible = true
-            viewModel.checkShots(){
-
-                hud.hide(true)
-                UIApplication.sharedApplication().networkActivityIndicatorVisible = false
-                self.tableView.reloadData()
+            viewModel.checkShots() {
+                
+                if self.viewModel.numberOfShots() > 0 {
+                    self.tableView.reloadData()
+                }else{
+                    self.updateShots()
+                }
             }
+        }
+    }
+    
+    private func updateShots(){
+        
+        let hud = MBProgressHUD.showHUDAddedTo(view, animated: true)
+        hud.labelText = "Loading shots"
+        
+        UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+        
+        viewModel.updateShots(){
+            
+            hud.hide(true)
+            UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+            self.tableView.reloadData()
         }
     }
 }
