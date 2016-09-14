@@ -26,21 +26,44 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         UINavigationBar.appearance().barStyle = .Black
         
-        
-        if let navController = self.window?.rootViewController as? UINavigationController {
-            
-            if let shotsController = navController.viewControllers.first as? ShotsViewController {
-                shotsController.viewModel = ShotsViewModel()
-            }
-        }
+        checkToken()
         
         return true
+    }
+    
+    func checkToken(){
+        
+        let mainStoryboardIpad : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+
+        if dataManager.hasToken == false {
+            
+            if let loginViewController = mainStoryboardIpad.instantiateViewControllerWithIdentifier("LoginViewController") as? LoginViewController {
+                
+                let loginViewModel = LoginViewModel(withAuthURL: dataManager.authURL)
+                
+                loginViewController.viewModel = loginViewModel
+                
+                window?.rootViewController = loginViewController
+            }
+            
+        }else{
+            if let navController = mainStoryboardIpad.instantiateViewControllerWithIdentifier("RootNavigationController") as? UINavigationController {
+                
+                if let shotsController = navController.viewControllers.first as? ShotsViewController {
+                    shotsController.viewModel = ShotsViewModel()
+                }
+                
+                window?.rootViewController = navController
+            }
+        }
     }
     
     func application(application: UIApplication, handleOpenURL url: NSURL) -> Bool {
         
 //        print("Handle URL: \(url)")
-        dataManager.processFirstStepResponseURL(url)
+        dataManager.processFirstStepResponseURL(url){
+            self.checkToken()
+        }
         
         return true
     }

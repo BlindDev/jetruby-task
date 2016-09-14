@@ -53,10 +53,6 @@ class Comment: IndexedObject {
     dynamic var user: User?
 }
 
-protocol DataManagerDelegate {
-    func tokenDidSet()
-}
-
 class DataManager {
     
     static let sharedInstance = DataManager()
@@ -68,9 +64,7 @@ class DataManager {
     private init(){
         connectionManager = ConnectionManager(withSavedToken: savedToken)
     }
-    
-    var delegate: DataManagerDelegate?
-    
+        
     //Auth methods
     var authURL: NSURL? {
         get{
@@ -78,7 +72,7 @@ class DataManager {
         }
     }
     
-    func processFirstStepResponseURL(responseURL: NSURL) {
+    func processFirstStepResponseURL(responseURL: NSURL, completion:()->()) {
         
         connectionManager?.processFirstStepResponseURL(responseURL) { (result) in
             if let value = result {
@@ -88,6 +82,8 @@ class DataManager {
                 let dataManager = DataManager.sharedInstance
                 
                 dataManager.updateToken(token)
+                
+                completion()
             }
         }
     }
@@ -133,9 +129,7 @@ class DataManager {
             }
         }
         
-        connectionManager?.setNewToken(newTokenString)
-        
-        delegate?.tokenDidSet()
+        connectionManager?.setNewToken(newTokenString)        
     }
     
     func clearToken() {
@@ -143,6 +137,10 @@ class DataManager {
             try! realm.write {
                 realm.delete(tokenObject)
             }
+        }
+        
+        if let delegate = UIApplication.sharedApplication().delegate as? AppDelegate {
+            delegate.checkToken()
         }
     }
     

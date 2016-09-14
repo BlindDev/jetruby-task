@@ -8,15 +8,9 @@
 
 import Foundation
 
-protocol ShotsViewModelDelegate {
-    func didEndAuth(success: Bool)
-}
-
 class ShotsViewModel {
     
     private let dataManager = DataManager.sharedInstance
-    
-    var delegate: ShotsViewModelDelegate?
     
     private var cellsModels: [ShotsTableViewCellViewModel]! {
         get{
@@ -47,19 +41,6 @@ class ShotsViewModel {
         return cellsModels[index]
     }
     
-    init(){
-        dataManager.delegate = self
-    }
-    
-    func hasToken() -> Bool {
-        
-        return dataManager.hasToken
-    }
-    
-    func loginURL() -> NSURL? {
-        return dataManager.authURL
-    }
-    
     func updateShots(completion: () -> ()) {
         
         dataManager.fetchShots(){
@@ -67,14 +48,13 @@ class ShotsViewModel {
         }
     }
     
-    func logout() {
-        dataManager.clearToken()
+    var logoutFunction:()->()!{
+        get{
+            return logout
+        }
     }
-}
-
-extension ShotsViewModel: DataManagerDelegate {
     
-    func tokenDidSet() {
-        delegate?.didEndAuth(hasToken())
+    private func logout() {
+        dataManager.clearToken()
     }
 }

@@ -9,30 +9,24 @@
 import UIKit
 import MBProgressHUD
 
+typealias VoidFunction = ()->()!
+
 class ShotsViewController: UIViewController {
 
     weak var viewModel: ShotsViewModel!{
         didSet{
-
-            viewModel.delegate = self
-
-            hasToken = viewModel.hasToken()
             
-            loginURL = viewModel.loginURL()
+            logoutFunction = viewModel.logoutFunction
         }
     }
     
-    var loginURL: NSURL?
+    var logoutFunction: VoidFunction!
     
     @IBOutlet weak var tableView: UITableView!
     
     @IBAction func logoutAction(sender: UIBarButtonItem) {
-        viewModel.logout()
-        hasToken = viewModel.hasToken()
-        checkToken()
+        logoutFunction()
     }
-    
-    private var hasToken: Bool!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -50,7 +44,11 @@ class ShotsViewController: UIViewController {
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         
-        checkToken()
+        if viewModel.numberOfShots() > 0 {
+            tableView.reloadData()
+        }else{
+            updateShots()
+        }
     }
     
     func refreshTableView(sender: UIRefreshControl){
@@ -58,29 +56,6 @@ class ShotsViewController: UIViewController {
         updateShots()
         
         sender.endRefreshing()
-    }
-
-    
-    private func checkToken() {
-     
-        if !hasToken {
-            
-            if let loginViewController = storyboard?.instantiateViewControllerWithIdentifier("LoginViewController") as? LoginViewController {
-                
-                let loginViewModel = LoginViewModel(withAuthURL: loginURL)
-
-                loginViewController.viewModel = loginViewModel
-                
-                presentViewController(loginViewController, animated: true, completion: nil)
-            }
-        }else{
-            
-            if self.viewModel.numberOfShots() > 0 {
-                self.tableView.reloadData()
-            }else{
-                self.updateShots()
-            }
-        }
     }
     
     private func updateShots(){
@@ -117,20 +92,5 @@ extension ShotsViewController: UITableViewDataSource {
         
         return cell!
     }
-}
-
-extension ShotsViewController: ShotsViewModelDelegate {
-    
-    func didEndAuth(success: Bool) {
-        
-        print("We have a token in login with status \(success)")
-        
-        hasToken = success
-        
-        if success {
-            dismissViewControllerAnimated(true, completion: nil)
-        }
-    }
-    
 }
 
