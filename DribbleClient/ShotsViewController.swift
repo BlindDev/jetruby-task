@@ -94,3 +94,27 @@ extension ShotsViewController: UITableViewDataSource {
     }
 }
 
+extension ShotsViewController: UITableViewDelegate {
+    
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        
+        guard let selectedRow = tableView.indexPathForSelectedRow?.row else{
+            return
+        }
+        
+        guard let shotID = viewModel.cellViewModel(atIndex: selectedRow)?.shotID else{
+            return
+        }
+
+        
+        if let commentsViewController = storyboard?.instantiateViewControllerWithIdentifier("CommentsViewController") as? CommentsViewController {
+            
+            let commentsViewModel = CommentsViewModel(withShotID: shotID)
+            
+            commentsViewController.viewModel = commentsViewModel
+            
+            presentViewController(commentsViewController, animated: true, completion: nil)
+        }
+    }
+}
+

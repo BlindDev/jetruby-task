@@ -87,45 +87,7 @@ class Serializer {
                 
                 newShot.images = newImages
                 
-                let newUser = User()
-                
-                if let userID = shot["user"]["id"].int {
-                    newUser.id = userID
-                }
-                
-                if let name = shot["user"]["name"].string {
-                    newUser.name = name
-                }
-                
-                if let username = shot["user"]["username"].string {
-                    newUser.username = username
-                }
-                
-                if let title = shot["user"]["title"].string {
-                    newUser.title = title
-                }
-                
-                if let bio = shot["user"]["bio"].string {
-                    newUser.bio = bio
-                }
-                
-                if let location = shot["user"]["location"].string {
-                    newUser.location = location
-                }
-                
-                if let followers_count = shot["user"]["followers_count"].int {
-                    newUser.followers_count = followers_count
-                }
-                
-                if let likes_count = shot["user"]["likes_count"].int {
-                    newUser.likes_count = likes_count
-                }
-                
-                if let shots_count = shot["user"]["shots_count"].int {
-                    newUser.shots_count = shots_count
-                }
-                
-                newShot.user = newUser
+                newShot.user = responseUser(fromJSON: shot["user"])
                 
                 shots.append(newShot)
             }
@@ -133,5 +95,80 @@ class Serializer {
         }
         
         return shots
+    }
+    
+    func responseComments() -> [Comment] {
+        
+        guard let commentsArray = json?.array else{
+            return []
+        }
+        
+        var comments: [Comment]! = []
+        
+        for comment in commentsArray {
+            
+            let newComment = Comment()
+            
+            if let id = comment["id"].int {
+                newComment.id = id
+            }
+            
+            if let createdString = comment["created_at"].string {
+                newComment.created = createdString.convertedDate
+            }
+            
+            newComment.user = responseUser(fromJSON: comment["user"])
+            
+            comments.append(newComment)
+        }
+        
+        return comments
+    }
+    
+    private func responseUser(fromJSON json: JSON) -> User {
+        
+        let newUser = User()
+        
+        if let userID = json["id"].int {
+            newUser.id = userID
+        }
+        
+        if let avatar_url = json["avatar_url"].string {
+            newUser.avatar_url = avatar_url
+        }
+        
+        if let name = json["name"].string {
+            newUser.name = name
+        }
+        
+        if let username = json["username"].string {
+            newUser.username = username
+        }
+        
+        if let title = json["title"].string {
+            newUser.title = title
+        }
+        
+        if let bio = json["bio"].string {
+            newUser.bio = bio
+        }
+        
+        if let location = json["location"].string {
+            newUser.location = location
+        }
+        
+        if let followers_count = json["followers_count"].int {
+            newUser.followers_count = followers_count
+        }
+        
+        if let likes_count = json["likes_count"].int {
+            newUser.likes_count = likes_count
+        }
+        
+        if let shots_count = json["shots_count"].int {
+            newUser.shots_count = shots_count
+        }
+        
+        return newUser
     }
 }

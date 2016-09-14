@@ -28,6 +28,12 @@ class ShotsTableViewCellViewModel {
         }
     }
     
+    var shotID: Int!{
+        get{
+            return shot.id
+        }
+    }
+    
     var shotDescription: String!{
         get{
             
@@ -67,7 +73,7 @@ class ShotsTableViewCellViewModel {
     }
     
     
-    func shotLikeAction(action: ShotLikeAction, completion:(result: Bool)->()) {
+    func shotLikeAction(action: HTTPMehod, completion:(result: Bool)->()) {
         
         DataManager.sharedInstance.shotLikeAction(action, shotID: shot.id) {
             completion(result: self.shotLiked)

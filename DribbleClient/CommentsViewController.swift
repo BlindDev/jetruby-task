@@ -7,6 +7,9 @@
 //
 
 import UIKit
+import MBProgressHUD
+
+typealias CommentFunction = (body: String, completion: VoidFunction) -> ()!
 
 class CommentsViewController: UIViewController {
 
@@ -17,34 +20,83 @@ class CommentsViewController: UIViewController {
     weak var viewModel: CommentsViewModel!{
         didSet{
          
-            
+            commentAction = viewModel.commentAction
         }
     }
     
+    var commentAction: CommentFunction!
+
+    
     @IBAction func sendCommentAction(sender: UIButton) {
-        
+        if let text = commentField.text {
+            commentAction(body: text){
+                self.tableView.reloadData()
+            }
+        }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+        
+        navigationItem.title = "Dribbble"
+        
+        tableView.backgroundColor = StyleKit.charcoalColor
+        tableView.estimatedRowHeight = tableView.bounds.height / 2
+        
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(refreshTableView(_:)), forControlEvents: .ValueChanged)
+        tableView.addSubview(refreshControl)
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        if viewModel.numberOfComments() > 0 {
+            tableView.reloadData()
+        }else{
+            updateShots()
+        }
     }
-    */
+    
+    func refreshTableView(sender: UIRefreshControl){
+        
+        updateShots()
+        
+        sender.endRefreshing()
+    }
+    
+    private func updateShots(){
+        
+        let hud = MBProgressHUD.showHUDAddedTo(view, animated: true)
+        hud.labelText = "Loading shots"
+        
+        UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+        
+        viewModel.updateComments(){
+            
+            hud.hide(true)
+            UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+            self.tableView.reloadData()
+        }
+    }
+}
 
+extension CommentsViewController: UITableViewDataSource {
+    
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return viewModel.numberOfComments()
+    }
+    
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        
+        var cell = tableView.dequeueReusableCellWithIdentifier("Cell") as? CommentsTableViewCell
+        
+        if cell == nil {
+            cell = CommentsTableViewCell(style: .Default, reuseIdentifier: "Cell")
+        }
+        
+        cell?.cellViewModel = viewModel.cellViewModel(atIndex: indexPath.row)
+        
+        return cell!
+    }
 }

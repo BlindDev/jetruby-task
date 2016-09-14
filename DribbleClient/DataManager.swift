@@ -9,6 +9,8 @@
 import Foundation
 import RealmSwift
 
+typealias ResponseResultFunction = (result: AnyObject?) -> ()
+
 class Token: Object {
     dynamic var accessToken = ""
 }
@@ -36,6 +38,7 @@ class User: IndexedObject {
     dynamic var title: String = ""
     dynamic var bio: String = ""
     dynamic var location: String = ""
+    dynamic var avatar_url: String?
     dynamic var followers_count: Int = 0
     dynamic var likes_count: Int = 0
     dynamic var shots_count: Int = 0
@@ -72,7 +75,7 @@ class DataManager {
         }
     }
     
-    func processFirstStepResponseURL(responseURL: NSURL, completion:()->()) {
+    func processFirstStepResponseURL(responseURL: NSURL, completion:VoidFunction) {
         
         connectionManager?.processFirstStepResponseURL(responseURL) { (result) in
             if let value = result {
@@ -159,7 +162,7 @@ class DataManager {
         return shots
     }
     
-    func fetchShots(completion:()->()){
+    func fetchShots(completion:VoidFunction){
         
         connectionManager?.fetchShots(){ (result) in
             if  let currentResult = result {
@@ -187,7 +190,7 @@ class DataManager {
         }
     }
     
-    func shotLikeAction(action: ShotLikeAction, shotID: Int, completion:() ->()){
+    func shotLikeAction(action: HTTPMehod, shotID: Int, completion:() ->()){
         
         connectionManager?.shotLikeAction(action, shotID: shotID) { (result) in
             if  let currentResult = result {
@@ -228,5 +231,33 @@ class DataManager {
         }
         
         return comments
+    }
+    
+    func commentsAction(action: HTTPMehod, shotID: Int, body: String?, completion:() ->()) {
+        
+        connectionManager?.shotCommentAction(action, shotID: shotID, body: body){ (result) in
+            if  let currentResult = result {
+                
+                let serializer = Serializer(responseValue: currentResult)
+                
+                let comments = serializer.responseComments()
+                
+                let dataManager = DataManager.sharedInstance
+                
+                dataManager.updateComments(comments)
+                
+                completion()
+            }
+        }
+    }
+    
+    private func updateComments(comments:[Comment]) {
+        
+        for comment in comments{
+            
+            try! realm.write {
+                realm.add(comment, update: true)
+            }
+        }
     }
 }

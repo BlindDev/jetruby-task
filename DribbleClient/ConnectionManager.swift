@@ -9,10 +9,10 @@
 import Foundation
 import Alamofire
 
-enum ShotLikeAction {
-    case CHECK
-    case LIKE
-    case UNLIKE
+enum HTTPMehod {
+    case GET
+    case POST
+    case DELETE
 }
 
 class ConnectionManager {
@@ -32,7 +32,7 @@ class ConnectionManager {
         token = newToken
     }
     
-    func fetchShots(completion:(result: AnyObject?)->()) {
+    func fetchShots(completion:ResponseResultFunction) {
         
         guard let tokenString = token else{
             return
@@ -51,19 +51,19 @@ class ConnectionManager {
         }
     }
     
-    private let shotLikeActionDictionary: [ShotLikeAction : Alamofire.Method] = [
-        .CHECK    : .GET,
-        .LIKE   : .POST,
-        .UNLIKE : .DELETE
+    private let httpMethodsDictionary: [HTTPMehod : Alamofire.Method] = [
+        .GET    : .GET,
+        .POST   : .POST,
+        .DELETE : .DELETE
     ]
     
-    func shotLikeAction(action: ShotLikeAction, shotID: Int, completion:(result: AnyObject?) ->()) {
+    func shotLikeAction(action: HTTPMehod, shotID: Int, completion:(result: AnyObject?) ->()) {
        
         guard let tokenString = token else{
             return
         }
         
-        guard let method = shotLikeActionDictionary[action] else{
+        guard let method = httpMethodsDictionary[action] else{
             return
         }
         
@@ -79,15 +79,15 @@ class ConnectionManager {
         }
     }
     
-    func getUserInfo() {
-        
-    }
-    
-    func shotCommentAction(actionMethod: Alamofire.Method, shotID: Int, body: String?, completion:(savedComments: [Shot])->()) {
+    func shotCommentAction(action: HTTPMehod, shotID: Int, body: String?, completion:ResponseResultFunction) {
         //GET /shots/:shot/comments
         //POST /shots/:shot/comments
 
         guard let tokenString = token else{
+            return
+        }
+        
+        guard let method = httpMethodsDictionary[action] else{
             return
         }
         
@@ -101,19 +101,14 @@ class ConnectionManager {
             parameters["body"] = comment
         }
         
-//        startConnection(withMethod: actionMethod, link:link, parameters: parameters) { (result) in
-//            
-//            if  let currentResult = result {
-//                
-//                let serializer = Serializer(responseValue: currentResult)
-//                
-//                let dataManager = DataManager.sharedInstance
-//                
-////                dataManager.updateShotLikeByID(shotID, liked: serializer.responseShotHasLikeDate())
-//                
-//                completion(savedComments: <#T##[Shot]#>)
-//            }
-//        }
+        startConnection(withMethod: method, link:link, parameters: parameters) { (result) in
+            
+            completion(result: result)
+        }
+    }
+    
+    func getUserInfo() {
+        
     }
     
     var loginURL: NSURL? {
@@ -127,7 +122,7 @@ class ConnectionManager {
         }
     }
     
-    func processFirstStepResponseURL(responseURL: NSURL, completion: (result: AnyObject?)->()) {
+    func processFirstStepResponseURL(responseURL: NSURL, completion: ResponseResultFunction) {
         
         let components = NSURLComponents(URL: responseURL, resolvingAgainstBaseURL: false)
         
@@ -159,7 +154,7 @@ class ConnectionManager {
         }
     }
     
-    private func startConnection(withMethod method: Alamofire.Method, link: String, parameters: [String: String], completion: (result: AnyObject?)->()) {
+    private func startConnection(withMethod method: Alamofire.Method, link: String, parameters: [String: String], completion: ResponseResultFunction) {
         
         Alamofire.request(method, link, parameters: parameters)
             .responseJSON { response in

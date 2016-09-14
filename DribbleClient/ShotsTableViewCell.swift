@@ -34,7 +34,7 @@ class ShotsTableViewCell: UITableViewCell {
                 }
             }
             
-            cellViewModel.shotLikeAction(ShotLikeAction.CHECK) { (result) in
+            cellViewModel.shotLikeAction(HTTPMehod.GET) { (result) in
                  self.likeButton.shotLiked = result
             }
         }
@@ -47,8 +47,6 @@ class ShotsTableViewCell: UITableViewCell {
         shotView.contentMode = .ScaleAspectFit
         descriptionLabel.numberOfLines = 3
         descriptionLabel.lineBreakMode = NSLineBreakMode.ByWordWrapping
-
-        
     }
 
     override func setSelected(selected: Bool, animated: Bool) {
@@ -59,7 +57,7 @@ class ShotsTableViewCell: UITableViewCell {
     
     @IBAction func likeAction(sender: LikeButton) {
         
-        let action = sender.shotLiked == true ? ShotLikeAction.UNLIKE : ShotLikeAction.LIKE
+        let action = sender.shotLiked == true ? HTTPMehod.DELETE : HTTPMehod.POST
         
         sender.enabled = false
         

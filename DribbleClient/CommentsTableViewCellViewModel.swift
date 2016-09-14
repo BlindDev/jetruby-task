@@ -15,4 +15,10 @@ class CommentsTableViewCellViewModel {
     init(withComment comment: Comment){
         self.comment = comment
     }
+    
+    var commentBody: String{
+        get{
+            return comment.body
+        }
+    }
 }

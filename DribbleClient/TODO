@@ -6,4 +6,5 @@ try to use unowned self
 check other versions iOS
 need to refresh the cell. Show error liked shots, duplicates
 add enabling sendbutton if network is exist
-move login method into appdelegate
+add appdelegate animation
+error with hiding hud of the cell

@@ -52,4 +52,17 @@ class CommentsViewModel {
             completion()
         }
     }
+    
+    var commentAction:(comment: String, completion: VoidFunction)->(){
+        get{
+            return setComment
+        }
+    }
+    
+    private func setComment(body: String, completion: VoidFunction) {
+        dataManager.commentsAction(.POST, shotID: shotID, body: body) {
+            //TODO: add refreshing
+            completion()
+        }
+    }
 }
