@@ -9,10 +9,6 @@
 import Foundation
 import RealmSwift
 
-protocol DataManagerDelegate {
-    func tokenDidSet()
-}
-
 class Token: Object {
     dynamic var accessToken = ""
 }
@@ -51,26 +47,55 @@ class Images: IndexedObject {
     dynamic var teaser: String = ""
 }
 
+protocol DataManagerDelegate {
+    func tokenDidSet()
+}
+
 class DataManager {
+    
     static let sharedInstance = DataManager()
+    
     let realm = try! Realm()
+    
+    private var savedToken: String? {
+        get{
+            if let token = realm.objects(Token).first {
+                //            print("Saved token: \(token.accessToken)")
+                return token.accessToken
+            }
+            print("No token in DB")
+            return nil
+       
+        
+        }
+    }
+    
+    private var connectionManager: ConnectionManager? = nil
+    
+    private init(){
+        connectionManager = ConnectionManager(withSavedToken: savedToken)
+    }
     
     var delegate: DataManagerDelegate?
     
-    func savedToken() -> String? {
-        
-        if let token = realm.objects(Token).first {
-            //            print("Saved token: \(token.accessToken)")
-            return token.accessToken
+    var authURL: NSURL? {
+        get{
+            return connectionManager?.loginURL
         }
-        print("No token in DB")
-        return nil
+    }
+    
+    var hasToken: Bool! {
+        
+        guard let token = savedToken else{
+            return false
+        }
+        
+        return !token.isEmpty
     }
     
     func updateToken(token: String?) {
         
         guard let newTokenString = token else{
-            //            delegate?.tokenNewValue(nil)
             return
         }
         
@@ -87,6 +112,8 @@ class DataManager {
                 realm.add(newTokenObject)
             }
         }
+        
+        connectionManager?.setNewToken(newTokenString)
         
         delegate?.tokenDidSet()
     }
@@ -113,7 +140,25 @@ class DataManager {
         return shots
     }
     
-    func updateShots(shots:[Shot]) {
+    func fetchShots(completion:()->()){
+        
+        connectionManager?.fetchShots(){ (result) in
+            if  let currentResult = result {
+                
+                let serializer = Serializer(responseValue: currentResult)
+                
+                let shots = serializer.responseShots()
+                
+                let dataManager = DataManager.sharedInstance
+                
+                dataManager.updateShots(shots)
+                
+                completion()
+            }
+        }
+    }
+    
+    private func updateShots(shots:[Shot]) {
         
         for shot in shots{
             
@@ -123,13 +168,45 @@ class DataManager {
         }
     }
     
-    func updateShotLikeByID(shotID: Int, liked: Bool) {
+    func shotLikeAction(action: ShotLikeAction, shotID: Int, completion:() ->()){
+        
+        connectionManager?.shotLikeAction(action, shotID: shotID) { (result) in
+            if  let currentResult = result {
+                
+                let serializer = Serializer(responseValue: currentResult)
+                
+                let dataManager = DataManager.sharedInstance
+                
+                let liked = serializer.responseShotHasLikeDate()
+                
+                dataManager.updateShotLikeByID(shotID, liked: liked)
+                
+                completion()
+            }
+        }
+    }
+    
+    private func updateShotLikeByID(shotID: Int, liked: Bool) {
         
         let shots = realm.objects(Shot).filter{$0.id == shotID}
         
         if let shot = shots.first {
             try! realm.write {
                 shot.liked = liked
+            }
+        }
+    }
+    
+    func processFirstStepResponseURL(responseURL: NSURL) {
+        
+        connectionManager?.processFirstStepResponseURL(responseURL) { (result) in
+            if let value = result {
+                let serializer = Serializer(responseValue: value)
+                
+                let token = serializer.responseAuthToken()
+                let dataManager = DataManager.sharedInstance
+                
+                dataManager.updateToken(token)
             }
         }
     }

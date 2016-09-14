@@ -39,26 +39,17 @@ class ShotsViewModel {
     
     func hasToken() -> Bool {
         
-        if let currentToken = dataManager.savedToken() {
-            return !currentToken.isEmpty
-        }
-        
-        return false
+        return dataManager.hasToken
+    }
+    
+    func loginURL() -> NSURL? {
+        return dataManager.authURL
     }
     
     func updateShots(completion: () -> ()) {
         
-        //TODO: add checking offline and checking database
-        
-        ConnectionManager.sharedInstance.fetchShots(){ (savedShots) in
-            
-            self.cellsModels.removeAll()
-            
-            for shot in savedShots {
-                let newModel = ShotsTableViewCellViewModel(withShot: shot)
-                self.cellsModels.append(newModel)
-            }
-            completion()
+        dataManager.fetchShots(){
+            self.checkShots(completion)
         }
     }
     

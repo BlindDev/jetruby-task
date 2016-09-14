@@ -13,12 +13,17 @@ class ShotsViewController: UIViewController {
 
     weak var viewModel: ShotsViewModel!{
         didSet{
-            
-            hasToken = viewModel.hasToken()
+
             viewModel.delegate = self
-            //TODO: update data, refresh data through model
+
+            hasToken = viewModel.hasToken()
+            
+            loginURL = viewModel.loginURL()
         }
     }
+    
+    var loginURL: NSURL?
+    
     @IBOutlet weak var tableView: UITableView!
     
     @IBAction func logoutAction(sender: UIBarButtonItem) {
@@ -62,7 +67,7 @@ class ShotsViewController: UIViewController {
             
             if let loginViewController = storyboard?.instantiateViewControllerWithIdentifier("LoginViewController") as? LoginViewController {
                 
-                let loginViewModel = LoginViewModel()
+                let loginViewModel = LoginViewModel(withAuthURL: loginURL)
 
                 loginViewController.viewModel = loginViewModel
                 

@@ -19,25 +19,25 @@ class CommentsViewModel {
         
         //TODO: add checking offline and checking database
         
-        ConnectionManager.sharedInstance.fetchShots(){ (savedShots) in
-            
-            self.cellsModels.removeAll()
-            
-            for shot in savedShots {
-                let newModel = ShotsTableViewCellViewModel(withShot: shot)
-                self.cellsModels.append(newModel)
-            }
-            completion()
-        }
+//        ConnectionManager.sharedInstance.fetchShots(){ (savedShots) in
+//            
+//            self.cellsModels.removeAll()
+//            
+//            for shot in savedShots {
+//                let newModel = ShotsTableViewCellViewModel(withShot: shot)
+//                self.cellsModels.append(newModel)
+//            }
+//            completion()
+//        }
     }
     
     func checkComments(completion: () -> ()) {
-        let shots = dataManager.savedShots()
-        
-        for shot in shots {
-            let newModel = ShotsTableViewCellViewModel(withShot: shot)
-            self.cellsModels.append(newModel)
-        }
+//        let shots = dataManager.savedShots()
+//        
+//        for shot in shots {
+//            let newModel = ShotsTableViewCellViewModel(withShot: shot)
+//            self.cellsModels.append(newModel)
+//        }
         completion()
     }
 }

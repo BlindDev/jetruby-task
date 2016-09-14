@@ -22,6 +22,12 @@ class ShotsTableViewCellViewModel {
         }
     }
     
+    var shotLiked: Bool!{
+        get{
+            return shot.liked
+        }
+    }
+    
     var shotDescription: String!{
         get{
             
@@ -63,10 +69,8 @@ class ShotsTableViewCellViewModel {
     
     func shotLikeAction(action: ShotLikeAction, completion:(result: Bool)->()) {
         
-        ConnectionManager.sharedInstance.shotLikeAction(action, shotID: shot.id) {
-            //TODO: add checking database instead
-            
-            completion(result: self.shot.liked)
+        DataManager.sharedInstance.shotLikeAction(action, shotID: shot.id) {
+            completion(result: self.shotLiked)
         }
     }
 }

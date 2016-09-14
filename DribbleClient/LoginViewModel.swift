@@ -10,8 +10,14 @@ import Foundation
 
 class LoginViewModel {
     
+    private var url: NSURL?
+    
+    init(withAuthURL  url: NSURL?) {
+        self.url = url
+    }
+    
     func authURL() -> NSURL? {
-        return ConnectionManager.sharedInstance.loginURL
+        return url
     }
 }
 

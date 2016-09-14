@@ -40,7 +40,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(application: UIApplication, handleOpenURL url: NSURL) -> Bool {
         
 //        print("Handle URL: \(url)")
-        ConnectionManager.sharedInstance.processFirstStepResponse(url)
+        dataManager.processFirstStepResponseURL(url)
         
         return true
     }

@@ -17,20 +17,22 @@ enum ShotLikeAction {
 
 class ConnectionManager {
     //GET https://api.dribbble.com/v1/user?access_token=...
-    
-    static let sharedInstance = ConnectionManager()
-    
+        
     private let clientID = "b2d5805b5067740cdb08b9c5f8678554aa46217f53a80fe77efb0646df48bc19"
     private let clientSecret = "faeea2937f32639cd3a25b6be70926246bbb0dea8edc4f4adfae43a4f16993c8"
     private let scope = "public+write+comment"
     private let mainLink = "https://api.dribbble.com/v1"
-    private var token: String? {
-        get{
-            return DataManager.sharedInstance.savedToken()
-        }
+    private var token: String?
+    
+    init(withSavedToken token: String?) {
+        self.token = token
     }
     
-    func fetchShots(completion:(savedShots: [Shot])->()) {
+    func setNewToken(newToken: String?)  {
+        token = newToken
+    }
+    
+    func fetchShots(completion:(result: AnyObject?)->()) {
         
         guard let tokenString = token else{
             return
@@ -45,18 +47,7 @@ class ConnectionManager {
         
         startConnection(withMethod: .GET, link:link, parameters: parameters) { (result) in
             
-            if  let currentResult = result {
-                
-                let serializer = Serializer(responseValue: currentResult)
-                
-                let shots = serializer.responseShots()
-                
-                let dataManager = DataManager.sharedInstance
-                
-                dataManager.updateShots(shots)
-                
-                completion(savedShots: dataManager.savedShots())
-            }
+            completion(result: result)
         }
     }
     
@@ -66,7 +57,7 @@ class ConnectionManager {
         .UNLIKE : .DELETE
     ]
     
-    func shotLikeAction(action: ShotLikeAction, shotID: Int, completion:() ->()) {
+    func shotLikeAction(action: ShotLikeAction, shotID: Int, completion:(result: AnyObject?) ->()) {
        
         guard let tokenString = token else{
             return
@@ -84,16 +75,7 @@ class ConnectionManager {
         
         startConnection(withMethod: method, link:link, parameters: parameters) { (result) in
             
-            if  let currentResult = result {
-                
-                let serializer = Serializer(responseValue: currentResult)
-                
-                let dataManager = DataManager.sharedInstance
-                
-                dataManager.updateShotLikeByID(shotID, liked: serializer.responseShotHasLikeDate())
-                
-                completion()
-            }
+            completion(result: result)
         }
     }
     
@@ -119,19 +101,19 @@ class ConnectionManager {
             parameters["body"] = comment
         }
         
-        startConnection(withMethod: actionMethod, link:link, parameters: parameters) { (result) in
-            
-            if  let currentResult = result {
-                
-                let serializer = Serializer(responseValue: currentResult)
-                
-                let dataManager = DataManager.sharedInstance
-                
-//                dataManager.updateShotLikeByID(shotID, liked: serializer.responseShotHasLikeDate())
-                
-                completion(savedComments: <#T##[Shot]#>)
-            }
-        }
+//        startConnection(withMethod: actionMethod, link:link, parameters: parameters) { (result) in
+//            
+//            if  let currentResult = result {
+//                
+//                let serializer = Serializer(responseValue: currentResult)
+//                
+//                let dataManager = DataManager.sharedInstance
+//                
+////                dataManager.updateShotLikeByID(shotID, liked: serializer.responseShotHasLikeDate())
+//                
+//                completion(savedComments: <#T##[Shot]#>)
+//            }
+//        }
     }
     
     var loginURL: NSURL? {
@@ -145,7 +127,7 @@ class ConnectionManager {
         }
     }
     
-    func processFirstStepResponse(responseURL: NSURL) {
+    func processFirstStepResponseURL(responseURL: NSURL, completion: (result: AnyObject?)->()) {
         
         let components = NSURLComponents(URL: responseURL, resolvingAgainstBaseURL: false)
         
@@ -172,14 +154,7 @@ class ConnectionManager {
                         
             startConnection(withMethod: .POST, link: tokenLink, parameters: tokenParameters) { (result) in
                
-                if let value = result {
-                    let serializer = Serializer(responseValue: value)
-                    
-                    let token = serializer.responseAuthToken()
-                    let dataManager = DataManager.sharedInstance
-
-                    dataManager.updateToken(token)
-                }
+                completion(result: result)
             }
         }
     }
