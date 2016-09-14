@@ -20,7 +20,7 @@ class CommentsViewModel {
     private var cellsModels: [CommentsTableViewCellViewModel]! {
         get{
             
-            let comments = dataManager.savedComments()
+            let comments = dataManager.savedComments(shotID)
             
             var commentViewModels: [CommentsTableViewCellViewModel] = []
             
@@ -48,7 +48,7 @@ class CommentsViewModel {
     
     func updateComments(completion: () -> ()) {
         
-        dataManager.fetchShots(){
+        dataManager.commentsAction(.GET, shotID: shotID, body: nil){
             completion()
         }
     }

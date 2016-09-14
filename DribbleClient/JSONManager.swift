@@ -97,7 +97,7 @@ class Serializer {
         return shots
     }
     
-    func responseComments() -> [Comment] {
+    func responseComments(forShotID shotID: Int) -> [Comment] {
         
         guard let commentsArray = json?.array else{
             return []
@@ -109,8 +109,14 @@ class Serializer {
             
             let newComment = Comment()
             
+            newComment.shotID = shotID
+            
             if let id = comment["id"].int {
                 newComment.id = id
+            }
+            
+            if let body = comment["body"].string {
+                newComment.body = body
             }
             
             if let createdString = comment["created_at"].string {

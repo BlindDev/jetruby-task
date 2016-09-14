@@ -20,6 +20,12 @@ extension String {
             return dateFormatter.dateFromString(self)
         }
     }
+    
+    public var withoutHTML: String!{
+        get{
+            return self.stringByReplacingOccurrencesOfString("<[^>]+>", withString: "", options: .RegularExpressionSearch, range: nil)
+        }
+    }
 }
 
 extension NSDate {

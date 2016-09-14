@@ -38,7 +38,7 @@ class ShotsTableViewCellViewModel {
         get{
             
 //            print(shot.created)
-            return shot.desc.stringByReplacingOccurrencesOfString("<[^>]+>", withString: "", options: .RegularExpressionSearch, range: nil)
+            return shot.desc.withoutHTML
         }
     }
     

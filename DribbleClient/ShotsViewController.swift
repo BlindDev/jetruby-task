@@ -31,7 +31,7 @@ class ShotsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        navigationItem.title = "Dribbble"
+        navigationItem.title = "Shots"
         
         tableView.backgroundColor = StyleKit.charcoalColor
         tableView.estimatedRowHeight = tableView.bounds.height / 2
@@ -113,7 +113,7 @@ extension ShotsViewController: UITableViewDelegate {
             
             commentsViewController.viewModel = commentsViewModel
             
-            presentViewController(commentsViewController, animated: true, completion: nil)
+            navigationController?.pushViewController(commentsViewController, animated: true)
         }
     }
 }

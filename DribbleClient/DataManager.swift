@@ -51,6 +51,7 @@ class Images: IndexedObject {
 }
 
 class Comment: IndexedObject {
+    dynamic var shotID: Int = 0
     dynamic var body: String = ""
     dynamic var created: NSDate?
     dynamic var user: User?
@@ -220,8 +221,9 @@ class DataManager {
     }
     
     //Comments methods
-    func savedComments() -> [Comment] {
-        let results = realm.objects(Comment).sorted("created", ascending: false)
+    func savedComments(shotID: Int) -> [Comment] {
+        
+        let results = realm.objects(Comment).sorted("created", ascending: false).filter{$0.shotID == shotID}
         
         var comments: [Comment] = []
         
@@ -234,13 +236,13 @@ class DataManager {
     }
     
     func commentsAction(action: HTTPMehod, shotID: Int, body: String?, completion:() ->()) {
-        
+                
         connectionManager?.shotCommentAction(action, shotID: shotID, body: body){ (result) in
             if  let currentResult = result {
                 
                 let serializer = Serializer(responseValue: currentResult)
                 
-                let comments = serializer.responseComments()
+                let comments = serializer.responseComments(forShotID: shotID)
                 
                 let dataManager = DataManager.sharedInstance
                 

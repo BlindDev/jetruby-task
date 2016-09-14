@@ -10,21 +10,38 @@ import UIKit
 
 class CommentsTableViewCell: UITableViewCell {
 
+    @IBOutlet weak var iconView: IconView!
+    @IBOutlet weak var dateLabel: UILabel!
+    @IBOutlet weak var userLabel: UILabel!
+    @IBOutlet weak var commentView: UITextView!
+    
     weak var cellViewModel: CommentsTableViewCellViewModel!{
         didSet{
-            textLabel?.text = cellViewModel.commentBody
+            commentView.text = cellViewModel.commentBody
+            dateLabel.text = cellViewModel.date
+            userLabel.text = cellViewModel.userName
+            
+            if let url = NSURL(string: cellViewModel.avatarLink) {
+                iconView.sd_setImageWithURL(url)
+            }
         }
     }
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+        backgroundColor = StyleKit.charcoalColor
     }
+}
 
-    override func setSelected(selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
+class IconView: UIImageView {
+    override func awakeFromNib() {
+        layer.cornerRadius = bounds.height/2
+        clipsToBounds = true
     }
+}
 
+class CellContentView: UIView {
+    override func drawRect(rect: CGRect) {
+        StyleKit.drawComment(commentFrame: bounds)
+    }
 }

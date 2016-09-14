@@ -25,7 +25,6 @@ class CommentsViewController: UIViewController {
     }
     
     var commentAction: CommentFunction!
-
     
     @IBAction func sendCommentAction(sender: UIButton) {
         if let text = commentField.text {
@@ -38,9 +37,12 @@ class CommentsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        navigationItem.title = "Dribbble"
+        navigationItem.title = "Comments"
         
         tableView.backgroundColor = StyleKit.charcoalColor
+        
+        tableView.rowHeight = UITableViewAutomaticDimension
+        
         tableView.estimatedRowHeight = tableView.bounds.height / 2
         
         let refreshControl = UIRefreshControl()
@@ -54,18 +56,18 @@ class CommentsViewController: UIViewController {
         if viewModel.numberOfComments() > 0 {
             tableView.reloadData()
         }else{
-            updateShots()
+            updateComments()
         }
     }
     
     func refreshTableView(sender: UIRefreshControl){
         
-        updateShots()
+        updateComments()
         
         sender.endRefreshing()
     }
     
-    private func updateShots(){
+    private func updateComments(){
         
         let hud = MBProgressHUD.showHUDAddedTo(view, animated: true)
         hud.labelText = "Loading shots"
@@ -89,14 +91,15 @@ extension CommentsViewController: UITableViewDataSource {
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-        var cell = tableView.dequeueReusableCellWithIdentifier("Cell") as? CommentsTableViewCell
+        var cell = tableView.dequeueReusableCellWithIdentifier("CommentCell") as? CommentsTableViewCell
         
         if cell == nil {
-            cell = CommentsTableViewCell(style: .Default, reuseIdentifier: "Cell")
+            cell = CommentsTableViewCell(style: .Default, reuseIdentifier: "CommentCell")
         }
-        
+                
         cell?.cellViewModel = viewModel.cellViewModel(atIndex: indexPath.row)
         
         return cell!
     }
 }
+

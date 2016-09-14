@@ -13,12 +13,42 @@ class CommentsTableViewCellViewModel {
     private var comment: Comment
     
     init(withComment comment: Comment){
-        self.comment = comment
+        self.comment = comment        
     }
     
-    var commentBody: String{
+    var commentBody: String! {
         get{
-            return comment.body
+            return comment.body.withoutHTML
+        }
+    }
+    
+    var date: String! {
+        get{
+            
+            guard let dateString = comment.created?.convertedString else{
+                return ""
+            }
+            
+            return dateString
+        }
+    }
+    
+    var userName: String! {
+        get{
+            guard let user = comment.user?.username else{
+                return ""
+            }
+            
+            return user
+        }
+    }
+    
+    var avatarLink: String! {
+        get{
+            guard let link = comment.user?.avatar_url else{
+                return ""
+            }
+            return link
         }
     }
 }
