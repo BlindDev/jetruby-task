@@ -13,6 +13,10 @@ import MBProgressHUD
 typealias BoolVoidFunction = (result: Bool) -> ()
 typealias ShotLikeFunction = (method: HTTPMehod, completion: BoolVoidFunction) -> ()!
 
+protocol ShotsCellDelegate {
+    func didSelectUser(user: User)
+}
+
 class ShotsTableViewCell: UITableViewCell {
 
     @IBOutlet weak var shotView: UIImageView!
@@ -28,6 +32,8 @@ class ShotsTableViewCell: UITableViewCell {
             descriptionLabel.text = cellViewModel.shotDescription
 
             userButton.setTitle(cellViewModel.shotUsername, forState: .Normal)
+            
+            user = cellViewModel.user
             
             if let url = NSURL(string: cellViewModel.shotImageLink) {
                 
@@ -47,6 +53,10 @@ class ShotsTableViewCell: UITableViewCell {
     
     var likeFunction: ShotLikeFunction!
     
+    private var user: User?
+    
+    var delegate: ShotsCellDelegate?
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         
@@ -54,12 +64,6 @@ class ShotsTableViewCell: UITableViewCell {
         shotView.contentMode = .ScaleAspectFit
         descriptionLabel.numberOfLines = 3
         descriptionLabel.lineBreakMode = NSLineBreakMode.ByWordWrapping
-    }
-
-    override func setSelected(selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
     }
     
     @IBAction func likeAction(sender: LikeButton) {
@@ -73,6 +77,13 @@ class ShotsTableViewCell: UITableViewCell {
             sender.shotLiked = result
             sender.enabled = true
         }
+    }
+    @IBAction func userSelection(sender: UIButton) {
+        guard let selectedUser = user else{
+            return
+        }
+        
+        delegate?.didSelectUser(selectedUser)
     }
 }
 

@@ -58,6 +58,9 @@
                                                         <constraint firstAttribute="height" constant="44" id="4kp-ig-4Gc"/>
                                                     </constraints>
                                                     <state key="normal" title="Button"/>
+                                                    <connections>
+                                                        <action selector="userSelection:" destination="Csd-DR-bdi" eventType="touchUpInside" id="rHO-zQ-8ub"/>
+                                                    </connections>
                                                 </button>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UbS-4u-2Rc" customClass="LikeButton" customModule="DribbleClient" customModuleProvider="target">
                                                     <rect key="frame" x="548" y="8" width="44" height="44"/>
@@ -158,7 +161,25 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UY7-vP-NkE" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1006" y="461"/>
+            <point key="canvasLocation" x="1014" y="-303"/>
+        </scene>
+        <!--User View Controller-->
+        <scene sceneID="Ya9-ba-HBg">
+            <objects>
+                <viewController storyboardIdentifier="UserViewController" id="KEp-hp-ah6" customClass="UserViewController" customModule="DribbleClient" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="I3p-KT-2GS"/>
+                        <viewControllerLayoutGuide type="bottom" id="SzS-1P-YeB"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="1Do-ok-cI1">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="de5-5E-b7B" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1700" y="-303"/>
         </scene>
         <!--Comments View Controller-->
         <scene sceneID="Yfd-j6-NeI">
@@ -319,7 +340,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="EgY-sZ-15A" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1686" y="461"/>
+            <point key="canvasLocation" x="1014" y="461"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Sr2-8e-Q8c">

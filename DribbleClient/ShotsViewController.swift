@@ -90,6 +90,8 @@ extension ShotsViewController: UITableViewDataSource {
         
         cell?.cellViewModel = viewModel.cellViewModel(atIndex: indexPath.row)
         
+        cell?.delegate = self
+        
         return cell!
     }
 }
@@ -114,6 +116,19 @@ extension ShotsViewController: UITableViewDelegate {
             commentsViewController.viewModel = commentsViewModel
             
             navigationController?.pushViewController(commentsViewController, animated: true)
+        }
+    }
+}
+
+extension ShotsViewController: ShotsCellDelegate {
+    func didSelectUser(user: User) {
+        if let userViewController = storyboard?.instantiateViewControllerWithIdentifier("UserViewController") as? UserViewController {
+            
+            let userViewModel = UserViewModel(withUser: user)
+            
+            userViewController.viewModel = userViewModel
+            
+            navigationController?.pushViewController(userViewController, animated: true)
         }
     }
 }

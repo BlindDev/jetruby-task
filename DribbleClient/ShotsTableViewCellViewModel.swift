@@ -72,6 +72,12 @@ class ShotsTableViewCellViewModel {
         }
     }
     
+    var user: User? {
+        get{
+            return shot.user
+        }
+    }
+    
     var shotLikeFunction:(method: HTTPMehod, completion: BoolVoidFunction) -> () {
         get{
             return shotLikeAction
