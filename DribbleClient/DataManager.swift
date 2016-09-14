@@ -248,8 +248,10 @@ class DataManager {
                 
                 dataManager.updateComments(comments)
                 
-                completion()
             }
+            
+            completion()
+
         }
     }
     

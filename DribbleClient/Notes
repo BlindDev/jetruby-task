@@ -31,13 +31,13 @@ Requirements for the screen:
 ● Pictures must be displayed according to proportions. - done
 ● Use the pull­down­to­refresh feature to get the latest shots. - done
 
-3. Shot commenting
+3. Shot commenting - need to ckeck with normal account
 The screen for commenting should include the list of comments to a shot and a field for commenting. The comment must consist of the author’s name, his picture, the date of commenting and the text itself. The field to enter the text and the send button should be in the bottom of the screen. By pressing the button, a user posts his comment which should be displayed among the other comments.
 
 Requirements for the screen:
-● The size of the comment cell should depend on the text length.
-● After a user presses the post button, he should be able to see HUD before the process of sending the comment to the API ends
-● After the comment has been sent, the screen should return to its initial
+● The size of the comment cell should depend on the text length. - done
+● After a user presses the post button, he should be able to see HUD before the process of sending the comment to the API ends - need to ckeck
+● After the comment has been sent, the screen should return to its initial - need to check
 state.
 
 4. Profile viewing

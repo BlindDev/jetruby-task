@@ -9,7 +9,7 @@
 import UIKit
 import MBProgressHUD
 
-typealias CommentFunction = (body: String, completion: VoidFunction) -> ()!
+typealias CommentFunction = (body: String, completion: ()->()) -> ()!
 
 class CommentsViewController: UIViewController {
 
@@ -30,10 +30,17 @@ class CommentsViewController: UIViewController {
     
     @IBAction func sendCommentAction(sender: UIButton) {
         if let text = commentField.text {
+            
+            let hud = MBProgressHUD.showHUDAddedTo(view, animated: true)
+            hud.labelText = "Sending comment"
+            
             commentAction(body: text){
-                self.tableView.reloadData()
+                hud.hide(true)
+                self.updateComments()
             }
         }
+        
+        commentField.text = ""
         
         commentField.resignFirstResponder()
     }
@@ -95,7 +102,7 @@ class CommentsViewController: UIViewController {
     private func updateComments(){
         
         let hud = MBProgressHUD.showHUDAddedTo(view, animated: true)
-        hud.labelText = "Loading shots"
+        hud.labelText = "Loading comments"
         
         UIApplication.sharedApplication().networkActivityIndicatorVisible = true
         

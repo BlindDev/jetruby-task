@@ -91,6 +91,9 @@ class ConnectionManager {
             return
         }
         
+        print(method)
+
+        
         let link = mainLink + "/shots/\(shotID)/comments"
         
         var parameters = [
@@ -98,8 +101,10 @@ class ConnectionManager {
         ]
         
         if let comment = body {
-            parameters["body"] = comment
+            parameters["body"] = "<p>\(comment)</p>"
         }
+        
+        print(parameters)
         
         startConnection(withMethod: method, link:link, parameters: parameters) { (result) in
             
@@ -158,7 +163,8 @@ class ConnectionManager {
         
         Alamofire.request(method, link, parameters: parameters)
             .responseJSON { response in
-                                
+                
+                print("Answwer \(response.response) \n Request \(response.request) \n ===================")
                 switch response.result {
                 case .Success:
                     if let value = response.result.value {
