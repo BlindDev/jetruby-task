@@ -75,13 +75,10 @@ class ShotsViewController: UIViewController {
             }
         }else{
             
-            viewModel.checkShots() {
-                
-                if self.viewModel.numberOfShots() > 0 {
-                    self.tableView.reloadData()
-                }else{
-                    self.updateShots()
-                }
+            if self.viewModel.numberOfShots() > 0 {
+                self.tableView.reloadData()
+            }else{
+                self.updateShots()
             }
         }
     }

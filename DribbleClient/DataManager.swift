@@ -47,6 +47,12 @@ class Images: IndexedObject {
     dynamic var teaser: String = ""
 }
 
+class Comment: IndexedObject {
+    dynamic var body: String = ""
+    dynamic var created: NSDate?
+    dynamic var user: User?
+}
+
 protocol DataManagerDelegate {
     func tokenDidSet()
 }
@@ -57,19 +63,6 @@ class DataManager {
     
     let realm = try! Realm()
     
-    private var savedToken: String? {
-        get{
-            if let token = realm.objects(Token).first {
-                //            print("Saved token: \(token.accessToken)")
-                return token.accessToken
-            }
-            print("No token in DB")
-            return nil
-       
-        
-        }
-    }
-    
     private var connectionManager: ConnectionManager? = nil
     
     private init(){
@@ -78,9 +71,36 @@ class DataManager {
     
     var delegate: DataManagerDelegate?
     
+    //Auth methods
     var authURL: NSURL? {
         get{
             return connectionManager?.loginURL
+        }
+    }
+    
+    func processFirstStepResponseURL(responseURL: NSURL) {
+        
+        connectionManager?.processFirstStepResponseURL(responseURL) { (result) in
+            if let value = result {
+                let serializer = Serializer(responseValue: value)
+                
+                let token = serializer.responseAuthToken()
+                let dataManager = DataManager.sharedInstance
+                
+                dataManager.updateToken(token)
+            }
+        }
+    }
+    
+    //Token methods
+    private var savedToken: String? {
+        get{
+            if let token = realm.objects(Token).first {
+                //            print("Saved token: \(token.accessToken)")
+                return token.accessToken
+            }
+            print("No token in DB")
+            return nil
         }
     }
     
@@ -126,6 +146,7 @@ class DataManager {
         }
     }
     
+    //Shot methods
     func savedShots() -> [Shot] {
         
         let results = realm.objects(Shot).sorted("created", ascending: false)
@@ -197,17 +218,17 @@ class DataManager {
         }
     }
     
-    func processFirstStepResponseURL(responseURL: NSURL) {
+    //Comments methods
+    func savedComments() -> [Comment] {
+        let results = realm.objects(Comment).sorted("created", ascending: false)
         
-        connectionManager?.processFirstStepResponseURL(responseURL) { (result) in
-            if let value = result {
-                let serializer = Serializer(responseValue: value)
-                
-                let token = serializer.responseAuthToken()
-                let dataManager = DataManager.sharedInstance
-                
-                dataManager.updateToken(token)
-            }
+        var comments: [Comment] = []
+        
+        for comment in results {
+            
+            comments.append(comment)
         }
+        
+        return comments
     }
 }

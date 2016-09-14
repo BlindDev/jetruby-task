@@ -9,35 +9,47 @@
 import Foundation
 
 class CommentsViewModel {
+    
+    private let dataManager = DataManager.sharedInstance
     private var shotID: Int
     
     init(withShotID id: Int){
         self.shotID = id
     }
     
-    func updateComments(completion: () -> ()) {
-        
-        //TODO: add checking offline and checking database
-        
-//        ConnectionManager.sharedInstance.fetchShots(){ (savedShots) in
-//            
-//            self.cellsModels.removeAll()
-//            
-//            for shot in savedShots {
-//                let newModel = ShotsTableViewCellViewModel(withShot: shot)
-//                self.cellsModels.append(newModel)
-//            }
-//            completion()
-//        }
+    private var cellsModels: [CommentsTableViewCellViewModel]! {
+        get{
+            
+            let comments = dataManager.savedComments()
+            
+            var commentViewModels: [CommentsTableViewCellViewModel] = []
+            
+            for comment in comments {
+                let newModel = CommentsTableViewCellViewModel(withComment: comment)
+                commentViewModels.append(newModel)
+            }
+            
+            return commentViewModels
+        }
     }
     
-    func checkComments(completion: () -> ()) {
-//        let shots = dataManager.savedShots()
-//        
-//        for shot in shots {
-//            let newModel = ShotsTableViewCellViewModel(withShot: shot)
-//            self.cellsModels.append(newModel)
-//        }
-        completion()
+    func numberOfComments() -> Int {
+        return cellsModels.count
+    }
+    
+    func cellViewModel(atIndex index: Int) -> CommentsTableViewCellViewModel? {
+        
+        guard index < cellsModels.count else {
+            return nil
+        }
+        
+        return cellsModels[index]
+    }
+    
+    func updateComments(completion: () -> ()) {
+        
+        dataManager.fetchShots(){
+            completion()
+        }
     }
 }

@@ -18,7 +18,21 @@ class ShotsViewModel {
     
     var delegate: ShotsViewModelDelegate?
     
-    private var cellsModels = [ShotsTableViewCellViewModel]()
+    private var cellsModels: [ShotsTableViewCellViewModel]! {
+        get{
+            
+            let shots = dataManager.savedShots()
+            
+            var shotViewModels: [ShotsTableViewCellViewModel] = []
+            
+            for shot in shots {
+                let newModel = ShotsTableViewCellViewModel(withShot: shot)
+                shotViewModels.append(newModel)
+            }
+            
+            return shotViewModels
+        }
+    }
     
     func numberOfShots() -> Int {
         return cellsModels.count
@@ -49,18 +63,8 @@ class ShotsViewModel {
     func updateShots(completion: () -> ()) {
         
         dataManager.fetchShots(){
-            self.checkShots(completion)
+            completion()
         }
-    }
-    
-    func checkShots(completion: () -> ()) {
-        let shots = dataManager.savedShots()
-        
-        for shot in shots {
-            let newModel = ShotsTableViewCellViewModel(withShot: shot)
-            self.cellsModels.append(newModel)
-        }
-        completion()
     }
     
     func logout() {
