@@ -10,6 +10,9 @@ import UIKit
 import SDWebImage
 import MBProgressHUD
 
+typealias BoolVoidFunction = (result: Bool) -> ()
+typealias ShotLikeFunction = (method: HTTPMehod, completion: BoolVoidFunction) -> ()!
+
 class ShotsTableViewCell: UITableViewCell {
 
     @IBOutlet weak var shotView: UIImageView!
@@ -26,8 +29,8 @@ class ShotsTableViewCell: UITableViewCell {
 
             userButton.setTitle(cellViewModel.shotUsername, forState: .Normal)
             
-            
             if let url = NSURL(string: cellViewModel.shotImageLink) {
+                
                 let hud = MBProgressHUD.showHUDAddedTo(shotView, animated: true)
                 shotView.sd_setImageWithURL(url) { (image, error, casheType, url) in
                     hud.hide(true)
@@ -37,8 +40,12 @@ class ShotsTableViewCell: UITableViewCell {
             cellViewModel.shotLikeAction(HTTPMehod.GET) { (result) in
                  self.likeButton.shotLiked = result
             }
+            
+            likeFunction = cellViewModel.shotLikeFunction
         }
     }
+    
+    var likeFunction: ShotLikeFunction!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -61,7 +68,8 @@ class ShotsTableViewCell: UITableViewCell {
         
         sender.enabled = false
         
-        cellViewModel.shotLikeAction(action) { (result) in
+        likeFunction(method: action) { (result) in
+        
             sender.shotLiked = result
             sender.enabled = true
         }

@@ -72,8 +72,13 @@ class ShotsTableViewCellViewModel {
         }
     }
     
+    var shotLikeFunction:(method: HTTPMehod, completion: BoolVoidFunction) -> () {
+        get{
+            return shotLikeAction
+        }
+    }
     
-    func shotLikeAction(action: HTTPMehod, completion:(result: Bool)->()) {
+    func shotLikeAction(action: HTTPMehod, completion:BoolVoidFunction) {
         
         DataManager.sharedInstance.shotLikeAction(action, shotID: shot.id) {
             completion(result: self.shotLiked)

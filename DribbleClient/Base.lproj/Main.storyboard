@@ -172,20 +172,25 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2Ns-JE-Dpc">
-                                <rect key="frame" x="0.0" y="562" width="600" height="38"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2Ns-JE-Dpc" customClass="CommentsBottomView" customModule="DribbleClient" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="462" width="600" height="38"/>
                                 <subviews>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="BF2-ct-vCG">
                                         <rect key="frame" x="8" y="4" width="526" height="30"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                        <connections>
+                                            <outlet property="delegate" destination="3Ox-OT-LKK" id="5zB-yU-ezc"/>
+                                        </connections>
                                     </textField>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="htu-iL-sTl">
                                         <rect key="frame" x="542" y="4" width="50" height="30"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="50" id="SFz-TQ-v4m"/>
                                         </constraints>
-                                        <state key="normal" title="Send"/>
+                                        <state key="normal" title="Send">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
                                         <connections>
                                             <action selector="sendCommentAction:" destination="3Ox-OT-LKK" eventType="touchUpInside" id="Ehu-Nl-3ds"/>
                                         </connections>
@@ -204,7 +209,7 @@
                                 </constraints>
                             </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="136" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="8UA-Lz-vbp">
-                                <rect key="frame" x="0.0" y="20" width="600" height="542"/>
+                                <rect key="frame" x="0.0" y="20" width="600" height="442"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="CommentCell" rowHeight="136" id="9oC-JI-rai" customClass="CommentsTableViewCell" customModule="DribbleClient" customModuleProvider="target">
@@ -302,10 +307,11 @@
                             <constraint firstItem="2Ns-JE-Dpc" firstAttribute="top" secondItem="8UA-Lz-vbp" secondAttribute="bottom" id="Vr5-fh-kDo"/>
                             <constraint firstItem="2Ns-JE-Dpc" firstAttribute="leading" secondItem="2S0-Ps-J4B" secondAttribute="leadingMargin" constant="-20" id="ZkW-CD-AA9"/>
                             <constraint firstAttribute="trailingMargin" secondItem="8UA-Lz-vbp" secondAttribute="trailing" constant="-20" id="rBT-HD-gM0"/>
-                            <constraint firstItem="BYh-4E-ZTr" firstAttribute="top" secondItem="2Ns-JE-Dpc" secondAttribute="bottom" id="vAH-cc-13w"/>
+                            <constraint firstItem="BYh-4E-ZTr" firstAttribute="top" secondItem="2Ns-JE-Dpc" secondAttribute="bottom" constant="100" id="vAH-cc-13w"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="bottomConstraint" destination="vAH-cc-13w" id="CjE-Hf-C64"/>
                         <outlet property="commentField" destination="BF2-ct-vCG" id="KVd-FV-PyJ"/>
                         <outlet property="commentView" destination="2Ns-JE-Dpc" id="a6P-9N-LzO"/>
                         <outlet property="tableView" destination="8UA-Lz-vbp" id="xiD-cP-THq"/>

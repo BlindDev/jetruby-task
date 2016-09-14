@@ -14,8 +14,10 @@ typealias CommentFunction = (body: String, completion: VoidFunction) -> ()!
 class CommentsViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var commentView: UIView!
+    @IBOutlet weak var commentView: CommentsBottomView!
     @IBOutlet weak var commentField: UITextField!
+    
+    @IBOutlet weak var bottomConstraint: NSLayoutConstraint!
     
     weak var viewModel: CommentsViewModel!{
         didSet{
@@ -32,6 +34,8 @@ class CommentsViewController: UIViewController {
                 self.tableView.reloadData()
             }
         }
+        
+        commentField.resignFirstResponder()
     }
     
     override func viewDidLoad() {
@@ -44,6 +48,8 @@ class CommentsViewController: UIViewController {
         tableView.rowHeight = UITableViewAutomaticDimension
         
         tableView.estimatedRowHeight = tableView.bounds.height / 2
+        
+        bottomConstraint.constant = 0
         
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(refreshTableView(_:)), forControlEvents: .ValueChanged)
@@ -58,6 +64,25 @@ class CommentsViewController: UIViewController {
         }else{
             updateComments()
         }
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIKeyboardWillShowNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIKeyboardWillHideNotification, object: nil)
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+    }
+    
+    func keyboardWillShow(notification: NSNotification) {
+        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.CGRectValue() {
+            bottomConstraint.constant = keyboardSize.height
+        }
+    }
+    
+    func keyboardWillHide(notification: NSNotification) {
+        bottomConstraint.constant = 0
     }
     
     func refreshTableView(sender: UIRefreshControl){
@@ -100,6 +125,12 @@ extension CommentsViewController: UITableViewDataSource {
         cell?.cellViewModel = viewModel.cellViewModel(atIndex: indexPath.row)
         
         return cell!
+    }
+}
+
+class CommentsBottomView: UIView {
+    override func awakeFromNib() {
+        backgroundColor = StyleKit.pinkColor
     }
 }
 
