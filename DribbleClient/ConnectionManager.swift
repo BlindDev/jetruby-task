@@ -67,6 +67,7 @@ class ConnectionManager {
     ]
     
     func shotLikeAction(action: ShotLikeAction, shotID: Int, completion:() ->()) {
+       
         guard let tokenString = token else{
             return
         }
@@ -100,16 +101,38 @@ class ConnectionManager {
         
     }
     
-    func getShotComments(id: String) {
+    func shotCommentAction(actionMethod: Alamofire.Method, shotID: Int, body: String?, completion:(savedComments: [Shot])->()) {
         //GET /shots/:shot/comments
-    }
-    
-    func createComment() {
         //POST /shots/:shot/comments
+
+        guard let tokenString = token else{
+            return
+        }
+        
+        let link = mainLink + "/shots/\(shotID)/comments"
+        
+        var parameters = [
+            "access_token" : tokenString
+        ]
+        
+        if let comment = body {
+            parameters["body"] = comment
+        }
+        
+        startConnection(withMethod: actionMethod, link:link, parameters: parameters) { (result) in
+            
+            if  let currentResult = result {
+                
+                let serializer = Serializer(responseValue: currentResult)
+                
+                let dataManager = DataManager.sharedInstance
+                
+//                dataManager.updateShotLikeByID(shotID, liked: serializer.responseShotHasLikeDate())
+                
+                completion(savedComments: <#T##[Shot]#>)
+            }
+        }
     }
-    
-//    Like a shot
-//    POST /shots/:id/like
     
     var loginURL: NSURL? {
         get{

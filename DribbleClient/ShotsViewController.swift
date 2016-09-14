@@ -35,7 +35,7 @@ class ShotsViewController: UIViewController {
         navigationItem.title = "Dribbble"
         
         tableView.backgroundColor = StyleKit.charcoalColor
-        tableView.estimatedRowHeight = tableView.frame.height / 2
+        tableView.estimatedRowHeight = tableView.bounds.height / 2
         
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(refreshTableView(_:)), forControlEvents: .ValueChanged)

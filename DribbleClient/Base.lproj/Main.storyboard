@@ -123,7 +123,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1117" y="389"/>
+            <point key="canvasLocation" x="334" y="461"/>
         </scene>
         <!--Login View Controller-->
         <scene sceneID="sjT-me-km0">
@@ -158,7 +158,80 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UY7-vP-NkE" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1876" y="389"/>
+            <point key="canvasLocation" x="1006" y="461"/>
+        </scene>
+        <!--Comments View Controller-->
+        <scene sceneID="Yfd-j6-NeI">
+            <objects>
+                <viewController storyboardIdentifier="CommentsViewController" id="3Ox-OT-LKK" customClass="CommentsViewController" customModule="DribbleClient" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="sDd-DL-MbL"/>
+                        <viewControllerLayoutGuide type="bottom" id="BYh-4E-ZTr"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="2S0-Ps-J4B">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2Ns-JE-Dpc">
+                                <rect key="frame" x="0.0" y="562" width="600" height="38"/>
+                                <subviews>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="BF2-ct-vCG">
+                                        <rect key="frame" x="8" y="4" width="526" height="30"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                    </textField>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="htu-iL-sTl">
+                                        <rect key="frame" x="542" y="4" width="50" height="30"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="50" id="SFz-TQ-v4m"/>
+                                        </constraints>
+                                        <state key="normal" title="Send"/>
+                                        <connections>
+                                            <action selector="sendCommentAction:" destination="3Ox-OT-LKK" eventType="touchUpInside" id="Ehu-Nl-3ds"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="htu-iL-sTl" secondAttribute="trailing" constant="8" id="9Af-cl-ff9"/>
+                                    <constraint firstItem="BF2-ct-vCG" firstAttribute="top" secondItem="2Ns-JE-Dpc" secondAttribute="top" constant="4" id="Dgu-hy-H2b"/>
+                                    <constraint firstAttribute="bottom" secondItem="BF2-ct-vCG" secondAttribute="bottom" constant="4" id="P2f-zA-sGk"/>
+                                    <constraint firstAttribute="bottom" secondItem="htu-iL-sTl" secondAttribute="bottom" constant="4" id="VO3-VM-TqV"/>
+                                    <constraint firstItem="htu-iL-sTl" firstAttribute="top" secondItem="2Ns-JE-Dpc" secondAttribute="top" constant="4" id="WdY-Z7-6u6"/>
+                                    <constraint firstAttribute="height" constant="38" id="Xud-xq-jhR"/>
+                                    <constraint firstItem="BF2-ct-vCG" firstAttribute="leading" secondItem="2Ns-JE-Dpc" secondAttribute="leading" constant="8" id="cRd-Rq-Qn2"/>
+                                    <constraint firstItem="htu-iL-sTl" firstAttribute="leading" secondItem="BF2-ct-vCG" secondAttribute="trailing" constant="8" id="oDH-eF-rjZ"/>
+                                </constraints>
+                            </view>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="8UA-Lz-vbp">
+                                <rect key="frame" x="0.0" y="20" width="600" height="542"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="3Ox-OT-LKK" id="MiS-Lt-s19"/>
+                                    <outlet property="delegate" destination="3Ox-OT-LKK" id="fns-bh-eJS"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="8UA-Lz-vbp" firstAttribute="leading" secondItem="2S0-Ps-J4B" secondAttribute="leadingMargin" constant="-20" id="JjD-Xv-m7J"/>
+                            <constraint firstItem="8UA-Lz-vbp" firstAttribute="top" secondItem="sDd-DL-MbL" secondAttribute="bottom" id="K1p-kN-lPO"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="2Ns-JE-Dpc" secondAttribute="trailing" constant="-20" id="Toa-ZT-Sjy"/>
+                            <constraint firstItem="2Ns-JE-Dpc" firstAttribute="top" secondItem="8UA-Lz-vbp" secondAttribute="bottom" id="Vr5-fh-kDo"/>
+                            <constraint firstItem="2Ns-JE-Dpc" firstAttribute="leading" secondItem="2S0-Ps-J4B" secondAttribute="leadingMargin" constant="-20" id="ZkW-CD-AA9"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="8UA-Lz-vbp" secondAttribute="trailing" constant="-20" id="rBT-HD-gM0"/>
+                            <constraint firstItem="BYh-4E-ZTr" firstAttribute="top" secondItem="2Ns-JE-Dpc" secondAttribute="bottom" id="vAH-cc-13w"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="commentField" destination="BF2-ct-vCG" id="KVd-FV-PyJ"/>
+                        <outlet property="commentView" destination="2Ns-JE-Dpc" id="a6P-9N-LzO"/>
+                        <outlet property="tableView" destination="8UA-Lz-vbp" id="xiD-cP-THq"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="EgY-sZ-15A" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1686" y="461"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Sr2-8e-Q8c">
