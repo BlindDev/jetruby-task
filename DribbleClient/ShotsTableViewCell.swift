@@ -136,7 +136,7 @@ class LikeButton: UIButton {
 
 class UserButton: UIButton {
     override func drawRect(rect: CGRect) {
-        StyleKit.drawUserButton(loginButtonFrame: bounds)
+        StyleKit.drawUserButton(userButtonFrame: bounds)
         
         tintColor = UIColor.whiteColor()
     }

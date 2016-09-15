@@ -110,27 +110,38 @@ public class StyleKit : NSObject {
         rectanglePath.fill()
     }
 
-    public class func drawUserButtonSymbol(userButtonFrame userButtonFrame: CGRect = CGRect(x: 0, y: 4, width: 100, height: 22)) {
+    public class func drawUserButton(userButtonFrame userButtonFrame: CGRect = CGRect(x: 0, y: 0, width: 100, height: 30)) {
+
+        //// Frames
+        let frame = CGRect(x: userButtonFrame.origin.x, y: userButtonFrame.origin.y, width: userButtonFrame.size.width, height: userButtonFrame.size.height)
+
 
         //// Rectangle Drawing
-        let rectanglePath = UIBezierPath(roundedRect: userButtonFrame, cornerRadius: 5)
+        let rectanglePath = UIBezierPath()
+        rectanglePath.moveToPoint(CGPoint(x: frame.minX + 7.64, y: frame.minY + 4))
+        rectanglePath.addLineToPoint(CGPoint(x: frame.maxX - 7.64, y: frame.minY + 4))
+        rectanglePath.addCurveToPoint(CGPoint(x: frame.maxX - 3.35, y: frame.minY + 4.33), controlPoint1: CGPoint(x: frame.maxX - 5.44, y: frame.minY + 4), controlPoint2: CGPoint(x: frame.maxX - 4.34, y: frame.minY + 4))
+        rectanglePath.addLineToPoint(CGPoint(x: frame.maxX - 3.16, y: frame.minY + 4.37))
+        rectanglePath.addCurveToPoint(CGPoint(x: frame.maxX - 0.37, y: frame.minY + 7.16), controlPoint1: CGPoint(x: frame.maxX - 1.86, y: frame.minY + 4.85), controlPoint2: CGPoint(x: frame.maxX - 0.85, y: frame.minY + 5.86))
+        rectanglePath.addCurveToPoint(CGPoint(x: frame.maxX, y: frame.minY + 11.64), controlPoint1: CGPoint(x: frame.maxX, y: frame.minY + 8.34), controlPoint2: CGPoint(x: frame.maxX, y: frame.minY + 9.44))
+        rectanglePath.addLineToPoint(CGPoint(x: frame.maxX, y: frame.maxY - 11.64))
+        rectanglePath.addCurveToPoint(CGPoint(x: frame.maxX - 0.33, y: frame.maxY - 7.35), controlPoint1: CGPoint(x: frame.maxX, y: frame.maxY - 9.44), controlPoint2: CGPoint(x: frame.maxX, y: frame.maxY - 8.34))
+        rectanglePath.addLineToPoint(CGPoint(x: frame.maxX - 0.37, y: frame.maxY - 7.16))
+        rectanglePath.addCurveToPoint(CGPoint(x: frame.maxX - 3.16, y: frame.maxY - 4.37), controlPoint1: CGPoint(x: frame.maxX - 0.85, y: frame.maxY - 5.86), controlPoint2: CGPoint(x: frame.maxX - 1.86, y: frame.maxY - 4.85))
+        rectanglePath.addCurveToPoint(CGPoint(x: frame.maxX - 7.64, y: frame.maxY - 4), controlPoint1: CGPoint(x: frame.maxX - 4.34, y: frame.maxY - 4), controlPoint2: CGPoint(x: frame.maxX - 5.44, y: frame.maxY - 4))
+        rectanglePath.addLineToPoint(CGPoint(x: frame.minX + 7.64, y: frame.maxY - 4))
+        rectanglePath.addCurveToPoint(CGPoint(x: frame.minX + 3.35, y: frame.maxY - 4.33), controlPoint1: CGPoint(x: frame.minX + 5.44, y: frame.maxY - 4), controlPoint2: CGPoint(x: frame.minX + 4.34, y: frame.maxY - 4))
+        rectanglePath.addLineToPoint(CGPoint(x: frame.minX + 3.16, y: frame.maxY - 4.37))
+        rectanglePath.addCurveToPoint(CGPoint(x: frame.minX + 0.37, y: frame.maxY - 7.16), controlPoint1: CGPoint(x: frame.minX + 1.86, y: frame.maxY - 4.85), controlPoint2: CGPoint(x: frame.minX + 0.85, y: frame.maxY - 5.86))
+        rectanglePath.addCurveToPoint(CGPoint(x: frame.minX, y: frame.maxY - 11.64), controlPoint1: CGPoint(x: frame.minX, y: frame.maxY - 8.34), controlPoint2: CGPoint(x: frame.minX, y: frame.maxY - 9.44))
+        rectanglePath.addLineToPoint(CGPoint(x: frame.minX, y: frame.minY + 11.64))
+        rectanglePath.addCurveToPoint(CGPoint(x: frame.minX + 0.33, y: frame.minY + 7.35), controlPoint1: CGPoint(x: frame.minX, y: frame.minY + 9.44), controlPoint2: CGPoint(x: frame.minX, y: frame.minY + 8.34))
+        rectanglePath.addLineToPoint(CGPoint(x: frame.minX + 0.37, y: frame.minY + 7.16))
+        rectanglePath.addCurveToPoint(CGPoint(x: frame.minX + 3.16, y: frame.minY + 4.37), controlPoint1: CGPoint(x: frame.minX + 0.85, y: frame.minY + 5.86), controlPoint2: CGPoint(x: frame.minX + 1.86, y: frame.minY + 4.85))
+        rectanglePath.addCurveToPoint(CGPoint(x: frame.minX + 7.64, y: frame.minY + 4), controlPoint1: CGPoint(x: frame.minX + 4.34, y: frame.minY + 4), controlPoint2: CGPoint(x: frame.minX + 5.44, y: frame.minY + 4))
+        rectanglePath.closePath()
         StyleKit.pinkColor.setFill()
         rectanglePath.fill()
-    }
-
-    public class func drawUserButton(loginButtonFrame loginButtonFrame: CGRect = CGRect(x: 0, y: 0, width: 100, height: 30)) {
-        //// General Declarations
-        let context = UIGraphicsGetCurrentContext()
-
-        //// Symbol Drawing
-        let symbolRect = CGRect(x: loginButtonFrame.origin.x, y: loginButtonFrame.origin.y, width: loginButtonFrame.size.width, height: loginButtonFrame.size.height)
-        CGContextSaveGState(context)
-        UIRectClip(symbolRect)
-        CGContextTranslateCTM(context, symbolRect.origin.x, symbolRect.origin.y)
-        CGContextScaleCTM(context, symbolRect.size.width / 100, symbolRect.size.height / 30)
-
-        StyleKit.drawUserButtonSymbol(userButtonFrame: CGRect(x: 0, y: 4, width: 100, height: 22))
-        CGContextRestoreGState(context)
     }
 
 }
