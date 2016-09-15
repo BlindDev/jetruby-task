@@ -34,7 +34,7 @@ class ConnectionManager {
         token = newToken
     }
     
-    func fetchShots(completion:ResponseResultFunction) {
+    func fetchShots(page: String, completion:ResponseResultFunction) {
         
         guard let tokenString = token else{
             return
@@ -43,6 +43,7 @@ class ConnectionManager {
         let link = mainLink + "/shots"
         
         let parameters = [
+            "page" : page,
             "per_page" : "100",
             "access_token" : tokenString
         ]
@@ -91,9 +92,6 @@ class ConnectionManager {
             return
         }
         
-        print(method)
-
-        
         let link = mainLink + "/shots/\(shotID)/comments"
         
         var parameters = [
@@ -112,7 +110,7 @@ class ConnectionManager {
         }
     }
     
-    func fetchFollowersForUser(userID: Int, completion:ResponseResultFunction) {
+    func fetchFollowersForUser(userID: Int, page: String, completion:ResponseResultFunction) {
         
         guard let tokenString = token else{
             return
@@ -121,6 +119,8 @@ class ConnectionManager {
         let link = mainLink + "/users/\(userID)/followers"
         
         let parameters = [
+            "page" : page,
+            "per_page" : "100",
             "access_token" : tokenString
         ]
         
@@ -130,7 +130,7 @@ class ConnectionManager {
         }
     }
     
-    func fetchLikesForUser(userID: Int, completion:ResponseResultFunction) {
+    func fetchLikesForUser(userID: Int, page: String, completion:ResponseResultFunction) {
         
         guard let tokenString = token else{
             return
@@ -139,6 +139,8 @@ class ConnectionManager {
         let link = mainLink + "/users/\(userID)/likes"
         
         let parameters = [
+            "page" : page,
+            "per_page" : "100",
             "access_token" : tokenString
         ]
         

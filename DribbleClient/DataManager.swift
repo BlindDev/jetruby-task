@@ -175,7 +175,11 @@ class DataManager {
     
     func fetchShots(completion:VoidFunction){
         
-        connectionManager?.fetchShots(){ (result) in
+        let objectsSaved = realm.objects(Shot)
+        
+        let page = Int(floor(Double(objectsSaved.count)/100))
+        
+        connectionManager?.fetchShots("\(page)"){ (result) in
             if  let currentResult = result {
                 
                 let serializer = Serializer(responseValue: currentResult)
@@ -291,7 +295,11 @@ class DataManager {
     
     func fetchFollowersForUser(userID: Int, completion:() ->()) {
         
-        connectionManager?.fetchFollowersForUser(userID) { (result) in
+        let followersSaved = realm.objects(Follower)
+        
+        let page = Int(floor(Double(followersSaved.count)/100))
+        
+        connectionManager?.fetchFollowersForUser(userID, page: "\(page)") { (result) in
             if  let currentResult = result {
                 
                 let serializer = Serializer(responseValue: currentResult)
@@ -333,7 +341,12 @@ class DataManager {
     }
     
     func fetchLikesForUser(userID: Int, completion:() ->()) {
-        connectionManager?.fetchLikesForUser(userID) { (result) in
+        
+        let objectsSaved = realm.objects(Like)
+        
+        let page = Int(floor(Double(objectsSaved.count)/100))
+        
+        connectionManager?.fetchLikesForUser(userID, page: "\(page)") { (result) in
             if  let currentResult = result {
                 
                 let serializer = Serializer(responseValue: currentResult)

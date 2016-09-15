@@ -10,7 +10,7 @@ import UIKit
 
 class ListTableViewCell: UITableViewCell {
 
-    @IBOutlet weak var iconView: UIImageView!
+    @IBOutlet weak var iconView: IconView!
     @IBOutlet weak var userLabel: UILabel!
     @IBOutlet weak var detailLabel: UILabel!
     
@@ -24,10 +24,4 @@ class ListTableViewCell: UITableViewCell {
             }
         }
     }
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
-    }
-
 }

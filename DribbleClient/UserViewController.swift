@@ -18,7 +18,7 @@ class UserViewController: UIViewController {
     @IBOutlet weak var listControl: UISegmentedControl!
     
     @IBAction func listSelectionAction(sender: UISegmentedControl) {
-        updateList()
+        checkData()
     }
     
     private var userName: String!
@@ -48,17 +48,29 @@ class UserViewController: UIViewController {
         if let url = NSURL(string: avatarLink) {
             avatarView.sd_setImageWithURL(url)
         }
+        
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(refreshTableView(_:)), forControlEvents: .ValueChanged)
+        tableView.addSubview(refreshControl)
     }
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         
-        updateList()
+        checkData()
+    }
+    
+    private func checkData(){
+        if viewModel.numberOfItems(listControl.selectedSegmentIndex) > 0 {
+            tableView.reloadData()
+        }else{
+            updateList()
+        }
     }
     
     private func updateList(){
         
-        let hud = MBProgressHUD.showHUDAddedTo(tableView, animated: true)
+        let hud = MBProgressHUD.showHUDAddedTo(view, animated: true)
         hud.labelText = listControl.selectedSegmentIndex == 0 ? "Loading followers" : "Loading likes"
         
         UIApplication.sharedApplication().networkActivityIndicatorVisible = true
@@ -69,6 +81,13 @@ class UserViewController: UIViewController {
             UIApplication.sharedApplication().networkActivityIndicatorVisible = false
             self.tableView.reloadData()
         }
+    }
+    
+    func refreshTableView(sender: UIRefreshControl){
+        
+        updateList()
+        
+        sender.endRefreshing()
     }
 }
 
@@ -86,5 +105,16 @@ extension UserViewController: UITableViewDataSource {
 
         return cell!
     }
-    
+}
+
+extension UserViewController: UIScrollViewDelegate {
+    func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        if scrollView == tableView{
+            
+            if ((scrollView.contentOffset.y + scrollView.frame.size.height) >= scrollView.contentSize.height){
+                
+                updateList()
+            }
+        }
+    }
 }

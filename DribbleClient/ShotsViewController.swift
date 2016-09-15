@@ -36,6 +36,7 @@ class ShotsViewController: UIViewController {
         tableView.backgroundColor = StyleKit.charcoalColor
         tableView.estimatedRowHeight = tableView.bounds.height / 2
         
+        
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(refreshTableView(_:)), forControlEvents: .ValueChanged)
         tableView.addSubview(refreshControl)
@@ -113,6 +114,18 @@ extension ShotsViewController: UITableViewDelegate {
             commentsViewController.viewModel = commentsViewModel
             
             navigationController?.pushViewController(commentsViewController, animated: true)
+        }
+    }
+}
+
+extension ShotsViewController: UIScrollViewDelegate {
+    func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        if scrollView == tableView{
+            
+            if ((scrollView.contentOffset.y + scrollView.frame.size.height) >= scrollView.contentSize.height){
+                
+                updateShots()
+            }
         }
     }
 }
