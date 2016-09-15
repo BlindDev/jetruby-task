@@ -52,44 +52,7 @@ class Serializer {
             
             if let animated = shot["animated"].bool where animated == false {
                 
-                let newShot = Shot()
-                
-                if let id = shot["id"].int {
-                    newShot.id = id
-                }
-                
-                if let title = shot["title"].string {
-                    newShot.title = title
-                }
-                
-                if let desc = shot["description"].string{
-                    newShot.desc = desc
-                }
-                
-                if let createdString = shot["created_at"].string {
-                    newShot.created = createdString.convertedDate
-                }
-                
-                let newImages = Images()
-                newImages.id = newShot.id
-                
-                if let hidpi = shot["images"]["hidpi"].string {
-                    newImages.hidpi = hidpi
-                }
-                
-                if let normal = shot["images"]["normal"].string {
-                    newImages.normal = normal
-                }
-                
-                if let teaser = shot["images"]["teaser"].string {
-                    newImages.teaser = teaser
-                }
-                
-                newShot.images = newImages
-                
-                newShot.user = responseUser(fromJSON: shot["user"])
-                
-                shots.append(newShot)
+                shots.append(responseShot(fromJSON: shot))
             }
         
         }
@@ -129,6 +92,56 @@ class Serializer {
         }
         
         return comments
+    }
+    
+    func responseFollowers(forUserID userID: Int) -> [Follower] {
+        
+        guard let followersArray = json?.array else{
+            return []
+        }
+        
+        var followers: [Follower]! = []
+        
+        for follower in followersArray {
+            
+            let newFollower = Follower()
+            newFollower.followedUserID = userID
+            
+            if let id = follower["id"].int {
+                newFollower.id = id
+            }
+            
+            newFollower.user = responseUser(fromJSON: follower["follower"])
+            
+            followers.append(newFollower)
+        }
+        
+        return followers
+    }
+    
+    func responseLikes(forUserID userID: Int) -> [Like] {
+        
+        guard let likesArray = json?.array else{
+            return []
+        }
+        
+        var likes: [Like]! = []
+        
+        for like in likesArray {
+            
+            let newLike = Like()
+            newLike.likedUserID = userID
+            
+            if let id = like["id"].int {
+                newLike.id = id
+            }
+            
+            newLike.shot = responseShot(fromJSON: like["shot"])
+            
+            likes.append(newLike)
+        }
+        
+        return likes
     }
     
     private func responseUser(fromJSON json: JSON) -> User {
@@ -180,5 +193,46 @@ class Serializer {
         }
         
         return newUser
+    }
+    
+    private func responseShot(fromJSON json: JSON) -> Shot {
+        let newShot = Shot()
+        
+        if let id = json["id"].int {
+            newShot.id = id
+        }
+        
+        if let title = json["title"].string {
+            newShot.title = title
+        }
+        
+        if let desc = json["description"].string{
+            newShot.desc = desc
+        }
+        
+        if let createdString = json["created_at"].string {
+            newShot.created = createdString.convertedDate
+        }
+        
+        let newImages = Images()
+        newImages.id = newShot.id
+        
+        if let hidpi = json["images"]["hidpi"].string {
+            newImages.hidpi = hidpi
+        }
+        
+        if let normal = json["images"]["normal"].string {
+            newImages.normal = normal
+        }
+        
+        if let teaser = json["images"]["teaser"].string {
+            newImages.teaser = teaser
+        }
+        
+        newShot.images = newImages
+        
+        newShot.user = responseUser(fromJSON: json["user"])
+
+        return newShot
     }
 }

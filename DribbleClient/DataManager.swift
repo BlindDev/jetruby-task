@@ -9,8 +9,6 @@
 import Foundation
 import RealmSwift
 
-typealias ResponseResultFunction = (result: AnyObject?) -> ()
-
 class Token: Object {
     dynamic var accessToken = ""
 }
@@ -55,6 +53,17 @@ class Comment: IndexedObject {
     dynamic var shotID: Int = 0
     dynamic var body: String = ""
     dynamic var created: NSDate?
+    dynamic var user: User?
+}
+
+class Like: IndexedObject {
+    dynamic var likedUserID: Int = 0
+    dynamic var created: NSDate?
+    dynamic var shot: Shot?
+}
+
+class Follower: IndexedObject {
+    dynamic var followedUserID: Int = 0
     dynamic var user: User?
 }
 
@@ -262,6 +271,91 @@ class DataManager {
             
             try! realm.write {
                 realm.add(comment, update: true)
+            }
+        }
+    }
+    
+    //Followers methods
+    func savedFollowersForUser(userID: Int) -> [Follower] {
+        
+        let results = realm.objects(Follower).filter{$0.followedUserID == userID}
+        
+        var followers: [Follower] = []
+        
+        for follower in results {
+            followers.append(follower)
+        }
+        
+        return followers
+    }
+    
+    func fetchFollowersForUser(userID: Int, completion:() ->()) {
+        
+        connectionManager?.fetchFollowersForUser(userID) { (result) in
+            if  let currentResult = result {
+                
+                let serializer = Serializer(responseValue: currentResult)
+                
+                let followers = serializer.responseFollowers(forUserID: userID)
+                
+                let dataManager = DataManager.sharedInstance
+                
+                dataManager.updateFollowers(followers)
+                
+            }
+            
+            completion()
+        }
+    }
+    
+    private func updateFollowers(followers:[Follower]) {
+        
+        for follower in followers{
+            
+            try! realm.write {
+                realm.add(follower, update: true)
+            }
+        }
+    }
+    
+    //Likes methods
+    func savedLikesForUser(userID: Int) -> [Like] {
+        
+        let results = realm.objects(Like).filter{$0.likedUserID == userID}
+        
+        var likes: [Like] = []
+        
+        for like in results {
+            likes.append(like)
+        }
+        
+        return likes
+    }
+    
+    func fetchLikesForUser(userID: Int, completion:() ->()) {
+        connectionManager?.fetchLikesForUser(userID) { (result) in
+            if  let currentResult = result {
+                
+                let serializer = Serializer(responseValue: currentResult)
+                
+                let likes = serializer.responseLikes(forUserID: userID)
+                
+                let dataManager = DataManager.sharedInstance
+                
+                dataManager.updateLikes(likes)
+                
+            }
+            
+            completion()
+        }
+    }
+    
+    private func updateLikes(likes:[Like]) {
+        
+        for like in likes{
+            
+            try! realm.write {
+                realm.add(like, update: true)
             }
         }
     }

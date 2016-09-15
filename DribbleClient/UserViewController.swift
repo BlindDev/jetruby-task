@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MBProgressHUD
 
 class UserViewController: UIViewController {
 
@@ -17,7 +18,7 @@ class UserViewController: UIViewController {
     @IBOutlet weak var listControl: UISegmentedControl!
     
     @IBAction func listSelectionAction(sender: UISegmentedControl) {
-        
+        updateList()
     }
     
     private var userName: String!
@@ -48,6 +49,27 @@ class UserViewController: UIViewController {
             avatarView.sd_setImageWithURL(url)
         }
     }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        updateList()
+    }
+    
+    private func updateList(){
+        
+        let hud = MBProgressHUD.showHUDAddedTo(tableView, animated: true)
+        hud.labelText = listControl.selectedSegmentIndex == 0 ? "Loading followers" : "Loading likes"
+        
+        UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+        
+        viewModel.updateValuesForSegment(listControl.selectedSegmentIndex){
+            
+            hud.hide(true)
+            UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+            self.tableView.reloadData()
+        }
+    }
 }
 
 extension UserViewController: UITableViewDataSource {
@@ -60,6 +82,8 @@ extension UserViewController: UITableViewDataSource {
         
         let cell = tableView.dequeueReusableCellWithIdentifier("ListCell") as? ListTableViewCell
         
+        cell?.cellViewModel = viewModel.cellViewModel(atIndex: indexPath.row)
+
         return cell!
     }
     

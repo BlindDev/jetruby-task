@@ -24,6 +24,8 @@ class ConnectionManager {
     private let mainLink = "https://api.dribbble.com/v1"
     private var token: String?
     
+    typealias ResponseResultFunction = (result: AnyObject?) -> ()
+    
     init(withSavedToken token: String?) {
         self.token = token
     }
@@ -57,7 +59,7 @@ class ConnectionManager {
         .DELETE : .DELETE
     ]
     
-    func shotLikeAction(action: HTTPMehod, shotID: Int, completion:(result: AnyObject?) ->()) {
+    func shotLikeAction(action: HTTPMehod, shotID: Int, completion:ResponseResultFunction) {
        
         guard let tokenString = token else{
             return
@@ -110,8 +112,41 @@ class ConnectionManager {
         }
     }
     
-//    GET /users/:user/followers
-//    GET /users/:user/likes
+    func fetchFollowersForUser(userID: Int, completion:ResponseResultFunction) {
+        
+        guard let tokenString = token else{
+            return
+        }
+        
+        let link = mainLink + "/users/\(userID)/followers"
+        
+        let parameters = [
+            "access_token" : tokenString
+        ]
+        
+        startConnection(withMethod: .GET, link:link, parameters: parameters) { (result) in
+            
+            completion(result: result)
+        }
+    }
+    
+    func fetchLikesForUser(userID: Int, completion:ResponseResultFunction) {
+        
+        guard let tokenString = token else{
+            return
+        }
+        
+        let link = mainLink + "/users/\(userID)/likes"
+        
+        let parameters = [
+            "access_token" : tokenString
+        ]
+        
+        startConnection(withMethod: .GET, link:link, parameters: parameters) { (result) in
+            
+            completion(result: result)
+        }
+    }
     
     var loginURL: NSURL? {
         get{

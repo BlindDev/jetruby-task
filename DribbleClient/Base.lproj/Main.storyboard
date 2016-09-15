@@ -219,11 +219,11 @@
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                 <dataDetectorType key="dataDetectorTypes" link="YES"/>
                             </textView>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="60" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="gBW-U5-QAc">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="60" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="gBW-U5-QAc">
                                 <rect key="frame" x="0.0" y="376" width="600" height="224"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="ListCell" rowHeight="59" id="RcC-Up-tII">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="ListCell" rowHeight="59" id="RcC-Up-tII" customClass="ListTableViewCell" customModule="DribbleClient" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="600" height="59"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="RcC-Up-tII" id="eUB-yb-R6h">
@@ -267,6 +267,11 @@
                                                 <constraint firstItem="lG5-49-kc1" firstAttribute="leading" secondItem="eUB-yb-R6h" secondAttribute="leadingMargin" id="wu9-NH-B2U"/>
                                             </constraints>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="detailLabel" destination="KyC-Mu-tqC" id="IeE-2w-dQD"/>
+                                            <outlet property="iconView" destination="lG5-49-kc1" id="RLg-R2-TwH"/>
+                                            <outlet property="userLabel" destination="5fP-5U-Mwj" id="vKu-dm-Y91"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                                 <connections>
