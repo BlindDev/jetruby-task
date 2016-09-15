@@ -82,7 +82,7 @@ class ConnectionManager {
         }
     }
     
-    func shotCommentAction(action: HTTPMehod, shotID: Int, body: String?, completion:ResponseResultFunction) {
+    func shotCommentAction(action: HTTPMehod, shotID: Int, body: String?, page: String?, completion:ResponseResultFunction) {
 
         guard let tokenString = token else{
             return
@@ -95,6 +95,7 @@ class ConnectionManager {
         let link = mainLink + "/shots/\(shotID)/comments"
         
         var parameters = [
+            "per_page" : "100",
             "access_token" : tokenString
         ]
         
@@ -102,7 +103,9 @@ class ConnectionManager {
             parameters["body"] = "<p>\(comment)</p>"
         }
         
-        print(parameters)
+        if let currentPage = page {
+            parameters["page"] = currentPage
+        }
         
         startConnection(withMethod: method, link:link, parameters: parameters) { (result) in
             

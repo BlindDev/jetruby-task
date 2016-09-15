@@ -46,6 +46,7 @@ class ShotsTableViewCell: UITableViewCell {
     private var shotImageLink: String!
     private var user: User?
     private var liked: Bool!
+    private var activityIndicator: UIActivityIndicatorView!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -54,6 +55,14 @@ class ShotsTableViewCell: UITableViewCell {
         shotView.contentMode = .ScaleAspectFit
         descriptionLabel.numberOfLines = 3
         descriptionLabel.lineBreakMode = NSLineBreakMode.ByWordWrapping
+        
+        activityIndicator = UIActivityIndicatorView()
+        activityIndicator.activityIndicatorViewStyle = .WhiteLarge
+        addSubview(activityIndicator)
+    }
+    
+    override func drawRect(rect: CGRect) {
+        activityIndicator.frame = bounds
     }
     
     @IBAction func likeAction(sender: LikeButton) {
@@ -79,7 +88,7 @@ class ShotsTableViewCell: UITableViewCell {
     func updateDisplay(){
         
         titleLabel.text = title
-            
+                    
         descriptionLabel.text = desc
         
         likeButton.shotLiked = liked
@@ -91,10 +100,13 @@ class ShotsTableViewCell: UITableViewCell {
         if let url = NSURL(string: cellViewModel.shotImageLink) {
             
 //            let hud = MBProgressHUD.showHUDAddedTo(shotView, animated: true)
+            activityIndicator.startAnimating()
             UIApplication.sharedApplication().networkActivityIndicatorVisible = true
             shotView.sd_setImageWithURL(url) { (image, error, casheType, url) in
 //                hud.hide(true)
                 UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+                self.activityIndicator.stopAnimating()
+
             }
         }
         

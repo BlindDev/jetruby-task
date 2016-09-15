@@ -107,7 +107,7 @@ extension UserViewController: UITableViewDataSource {
     }
 }
 
-extension UserViewController: UIScrollViewDelegate {
+extension UserViewController: UITableViewDelegate {
     func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         if scrollView == tableView{
             

@@ -116,9 +116,7 @@ extension ShotsViewController: UITableViewDelegate {
             navigationController?.pushViewController(commentsViewController, animated: true)
         }
     }
-}
-
-extension ShotsViewController: UIScrollViewDelegate {
+    
     func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         if scrollView == tableView{
             

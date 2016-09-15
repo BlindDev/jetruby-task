@@ -250,8 +250,15 @@ class DataManager {
     }
     
     func commentsAction(action: HTTPMehod, shotID: Int, body: String?, completion:() ->()) {
+        
+        var page: String? = nil
+        if action == HTTPMehod.GET {
+            let objectsSaved = realm.objects(Comment)
+            
+            page = "\(Int(floor(Double(objectsSaved.count)/100)))"
+        }
                 
-        connectionManager?.shotCommentAction(action, shotID: shotID, body: body){ (result) in
+        connectionManager?.shotCommentAction(action, shotID: shotID, body: body, page: page){ (result) in
             if  let currentResult = result {
                 
                 let serializer = Serializer(responseValue: currentResult)

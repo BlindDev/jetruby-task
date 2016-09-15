@@ -26,6 +26,7 @@ class ShotsViewModel {
     }
     
     func numberOfShots() -> Int {
+        
         return cellsModels.count
     }
     

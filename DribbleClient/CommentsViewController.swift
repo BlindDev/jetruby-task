@@ -131,6 +131,18 @@ extension CommentsViewController: UITableViewDataSource {
     }
 }
 
+extension CommentsViewController: UITableViewDelegate {
+    func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        if scrollView == tableView{
+            
+            if ((scrollView.contentOffset.y + scrollView.frame.size.height) >= scrollView.contentSize.height){
+                
+                updateComments()
+            }
+        }
+    }
+}
+
 class CommentsBottomView: UIView {
     override func awakeFromNib() {
         backgroundColor = StyleKit.pinkColor
