@@ -42,5 +42,5 @@ Requirements for the screen:
 
 4. Profile viewing
 The profile viewing screen should allow for viewing the author’s info. The screen must consist of a title and a list. The title must contain the author’s name, his picture, personal info, and the number of likes and followers. The next thing after the title is the list of likes and followers. A user should be able to switch between these lists. - done
-The list of likes must include the name of the person who left the like, his picture, the date when the like was left and the title of the shot liked.
-The list of followers must include the follower’s name, his picture, the number of likes the follower left.
+The list of likes must include the name of the person who left the like, his picture, the date when the like was left and the title of the shot liked. - done
+The list of followers must include the follower’s name, his picture, the number of likes the follower left. - done

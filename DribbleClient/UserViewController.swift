@@ -25,7 +25,7 @@ class UserViewController: UIViewController {
     private var userBio: String!
     private var avatarLink: String!
     
-    weak var viewModel: UserViewModel!{
+    var viewModel: UserViewModel!{
         didSet{
             
             userName = viewModel.name

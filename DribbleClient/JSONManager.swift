@@ -120,7 +120,7 @@ class Serializer {
     }
     
     func responseLikes(forUserID userID: Int) -> [Like] {
-        
+                
         guard let likesArray = json?.array else{
             return []
         }
@@ -134,6 +134,10 @@ class Serializer {
             
             if let id = like["id"].int {
                 newLike.id = id
+            }
+            
+            if let createdString = like["created_at"].string {
+                newLike.created = createdString.convertedDate
             }
             
             newLike.shot = responseShot(fromJSON: like["shot"])

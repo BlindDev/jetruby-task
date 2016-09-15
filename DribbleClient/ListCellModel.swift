@@ -12,30 +12,35 @@ class ListCellModel {
     
     private var follower: Follower!
     
+    private var user: User?
+    
     init(withFollower follower: Follower) {
         self.follower = follower
+        self.user = follower.user
     }
     
     private var like: Like!
     
     init(withLike like: Like){
         self.like = like
+        self.user = like.shot?.user
     }
     
     var userName: String! {
-        guard let user = follower.user else{
+        guard let currentUser = user else{
             return ""
         }
-        return user.name
+        
+        return currentUser.name
     }
     
     var avatarLink: String! {
         
-        guard let user = follower.user else{
+        guard let currentUser = user else{
             return ""
         }
         
-        guard let link = user.avatar_url else{
+        guard let link = currentUser.avatar_url else{
             return ""
         }
         return link
@@ -43,12 +48,12 @@ class ListCellModel {
     
     var detailText: String!{
         
-        guard let user = follower.user else{
+        guard let currentUser = user else{
             return ""
         }
         
-        if like != nil {
-            return "Likes \(user.likes_count)"
+        if like == nil {
+            return "Likes \(currentUser.likes_count)"
         }else{
             return likeDetail()
         }
