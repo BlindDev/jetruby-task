@@ -22,7 +22,7 @@ class ShotsTableViewCell: UITableViewCell {
     @IBOutlet weak var shotView: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var descriptionLabel: UILabel!
-    @IBOutlet weak var userButton: UIButton!
+    @IBOutlet weak var userButton: UserButton!
     @IBOutlet weak var likeButton: LikeButton!
     var delegate: ShotsCellDelegate?
     
@@ -131,5 +131,13 @@ class LikeButton: UIButton {
     override func drawRect(rect: CGRect) {
         
         StyleKit.drawLikeButtonHeart(heartFrame: bounds, shotLiked: shotLiked)
+    }
+}
+
+class UserButton: UIButton {
+    override func drawRect(rect: CGRect) {
+        StyleKit.drawUserButton(loginButtonFrame: bounds)
+        
+        tintColor = UIColor.whiteColor()
     }
 }

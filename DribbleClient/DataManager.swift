@@ -109,7 +109,7 @@ class DataManager {
                 //            print("Saved token: \(token.accessToken)")
                 return token.accessToken
             }
-            print("No token in DB")
+//            print("No token in DB")
             return nil
         }
     }

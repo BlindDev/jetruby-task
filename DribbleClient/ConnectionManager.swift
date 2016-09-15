@@ -201,7 +201,7 @@ class ConnectionManager {
         Alamofire.request(method, link, parameters: parameters)
             .responseJSON { response in
                 
-                print("Answwer \(response.response) \n Request \(response.request) \n ===================")
+//                print("Answwer \(response.response) \n Request \(response.request) \n ===================")
                 switch response.result {
                 case .Success:
                     if let value = response.result.value {
