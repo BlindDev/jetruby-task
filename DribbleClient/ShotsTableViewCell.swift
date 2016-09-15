@@ -24,38 +24,28 @@ class ShotsTableViewCell: UITableViewCell {
     @IBOutlet weak var descriptionLabel: UILabel!
     @IBOutlet weak var userButton: UIButton!
     @IBOutlet weak var likeButton: LikeButton!
+    var delegate: ShotsCellDelegate?
     
     weak var cellViewModel: ShotsTableViewCellViewModel!{
         didSet{
-            titleLabel.text = cellViewModel.shotTitle
+            title = cellViewModel.shotTitle
 
-            descriptionLabel.text = cellViewModel.shotDescription
-
-            userButton.setTitle(cellViewModel.shotUsername, forState: .Normal)
+            desc = cellViewModel.shotDescription
             
             user = cellViewModel.user
             
-            if let url = NSURL(string: cellViewModel.shotImageLink) {
-                
-                let hud = MBProgressHUD.showHUDAddedTo(shotView, animated: true)
-                shotView.sd_setImageWithURL(url) { (image, error, casheType, url) in
-                    hud.hide(true)
-                }
-            }
-            
-            cellViewModel.shotLikeAction(HTTPMehod.GET) { (result) in
-                 self.likeButton.shotLiked = result
-            }
+            liked = cellViewModel.shotLiked
             
             likeFunction = cellViewModel.shotLikeFunction
         }
     }
     
-    var likeFunction: ShotLikeFunction!
-    
+    private var likeFunction: ShotLikeFunction!
+    private var title: String!
+    private var desc: String!
+    private var shotImageLink: String!
     private var user: User?
-    
-    var delegate: ShotsCellDelegate?
+    private var liked: Bool!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -84,6 +74,30 @@ class ShotsTableViewCell: UITableViewCell {
         }
         
         delegate?.didSelectUser(selectedUser)
+    }
+    
+    func updateDisplay(){
+        
+        titleLabel.text = title
+            
+        descriptionLabel.text = desc
+        
+        likeButton.shotLiked = liked
+        
+        if let currentUser = user {
+            userButton.setTitle(currentUser.username, forState: .Normal)
+        }
+
+        if let url = NSURL(string: cellViewModel.shotImageLink) {
+            
+//            let hud = MBProgressHUD.showHUDAddedTo(shotView, animated: true)
+            UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+            shotView.sd_setImageWithURL(url) { (image, error, casheType, url) in
+//                hud.hide(true)
+                UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+            }
+        }
+        
     }
 }
 

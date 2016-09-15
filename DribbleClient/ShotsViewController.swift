@@ -82,17 +82,15 @@ extension ShotsViewController: UITableViewDataSource {
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-        var cell = tableView.dequeueReusableCellWithIdentifier("Cell") as? ShotsTableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as! ShotsTableViewCell
         
-        if cell == nil {
-            cell = ShotsTableViewCell(style: .Default, reuseIdentifier: "Cell")
-        }
+        cell.cellViewModel = viewModel.cellViewModel(atIndex: indexPath.row)
         
-        cell?.cellViewModel = viewModel.cellViewModel(atIndex: indexPath.row)
+        cell.delegate = self
         
-        cell?.delegate = self
+        cell.updateDisplay()
         
-        return cell!
+        return cell
     }
 }
 
@@ -107,7 +105,6 @@ extension ShotsViewController: UITableViewDelegate {
         guard let shotID = viewModel.cellViewModel(atIndex: selectedRow)?.shotID else{
             return
         }
-
         
         if let commentsViewController = storyboard?.instantiateViewControllerWithIdentifier("CommentsViewController") as? CommentsViewController {
             

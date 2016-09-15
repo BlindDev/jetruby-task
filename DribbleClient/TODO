@@ -1,10 +1,2 @@
-Bad logout
-Need to check id in cycle serialization
 add pagination
-date conversion
-try to use unowned self
-check other versions iOS
-need to refresh the cell. Show error liked shots, duplicates
-add enabling sendbutton if network is exist
-add appdelegate animation
 error with hiding hud of the cell

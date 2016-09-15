@@ -123,11 +123,7 @@ extension CommentsViewController: UITableViewDataSource {
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-        var cell = tableView.dequeueReusableCellWithIdentifier("CommentCell") as? CommentsTableViewCell
-        
-        if cell == nil {
-            cell = CommentsTableViewCell(style: .Default, reuseIdentifier: "CommentCell")
-        }
+        let cell = tableView.dequeueReusableCellWithIdentifier("CommentCell", forIndexPath: indexPath) as? CommentsTableViewCell
                 
         cell?.cellViewModel = viewModel.cellViewModel(atIndex: indexPath.row)
         

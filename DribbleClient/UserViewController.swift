@@ -80,7 +80,7 @@ extension UserViewController: UITableViewDataSource {
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCellWithIdentifier("ListCell") as? ListTableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("ListCell", forIndexPath: indexPath) as? ListTableViewCell
         
         cell?.cellViewModel = viewModel.cellViewModel(atIndex: indexPath.row)
 
