@@ -10,9 +10,28 @@ import UIKit
 
 class UserViewController: UIViewController {
 
+    @IBOutlet weak var avatarView: UIImageView!
+    @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var bioView: UITextView!
+    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var listControl: UISegmentedControl!
+    
+    @IBAction func listSelectionAction(sender: UISegmentedControl) {
+        
+    }
+    
+    private var userName: String!
+    private var userBio: String!
+    private var avatarLink: String!
+    
     weak var viewModel: UserViewModel!{
         didSet{
-            print(viewModel.name)
+            
+            userName = viewModel.name
+            
+            userBio = viewModel.bio
+            
+            avatarLink = viewModel.avatarLink
         }
     }
     
@@ -20,23 +39,28 @@ class UserViewController: UIViewController {
         super.viewDidLoad()
 
         navigationItem.title = "User"
-        // Do any additional setup after loading the view.
+        listControl.tintColor = StyleKit.pinkColor
+        
+        nameLabel.text = userName
+        bioView.text = userBio
+        
+        if let url = NSURL(string: avatarLink) {
+            avatarView.sd_setImageWithURL(url)
+        }
     }
+}
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+extension UserViewController: UITableViewDataSource {
+    
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return viewModel.numberOfItems(listControl.selectedSegmentIndex)
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        
+        let cell = tableView.dequeueReusableCellWithIdentifier("ListCell") as? ListTableViewCell
+        
+        return cell!
     }
-    */
-
+    
 }

@@ -18,8 +18,8 @@ Once a user has launched the app, the first thing he should see, if not register
 When authorized, a user should be able to see the screen for viewing shots. - done
 The screen must include the list of recent shots with their titles, brief descriptions and authors. - done
 A user should be able to like shots. - done
-By clicking the author's name, a user should open the screen showing the author’s profile.
-To comment a shot, a user has to click the cell which should open the screen for commenting.
+By clicking the author's name, a user should open the screen showing the author’s profile. - done
+To comment a shot, a user has to click the cell which should open the screen for commenting. - done
 The Logout button should be located in the left part of the screen. By pressing the button, a user should go to the Login screen. - done
 
 Requirements for the screen:
@@ -37,10 +37,10 @@ The screen for commenting should include the list of comments to a shot and a fi
 Requirements for the screen:
 ● The size of the comment cell should depend on the text length. - done
 ● After a user presses the post button, he should be able to see HUD before the process of sending the comment to the API ends - need to ckeck
-● After the comment has been sent, the screen should return to its initial - need to check
-state.
+● After the comment has been sent, the screen should return to its initial state. - need to check
+
 
 4. Profile viewing
-The profile viewing screen should allow for viewing the author’s info. The screen must consist of a title and a list. The title must contain the author’s name, his picture, personal info, and the number of likes and followers. The next thing after the title is the list of likes and followers. A user should be able to switch between these lists.
+The profile viewing screen should allow for viewing the author’s info. The screen must consist of a title and a list. The title must contain the author’s name, his picture, personal info, and the number of likes and followers. The next thing after the title is the list of likes and followers. A user should be able to switch between these lists. - done
 The list of likes must include the name of the person who left the like, his picture, the date when the like was left and the title of the shot liked.
 The list of followers must include the follower’s name, his picture, the number of likes the follower left.

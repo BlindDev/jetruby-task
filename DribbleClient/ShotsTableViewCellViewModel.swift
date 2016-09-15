@@ -17,71 +17,51 @@ class ShotsTableViewCellViewModel {
     }
     
     var shotTitle: String!{
-        get{
-            return shot.title
-        }
+        return shot.title
     }
     
     var shotLiked: Bool!{
-        get{
-            return shot.liked
-        }
+        return shot.liked
     }
     
     var shotID: Int!{
-        get{
-            return shot.id
-        }
+        return shot.id
     }
     
     var shotDescription: String!{
-        get{
-            
-//            print(shot.created)
-            return shot.desc.withoutHTML
-        }
+        return shot.desc.withoutHTML
     }
     
     var shotUsername: String!{
-        get{
-            
-            if let userName = shot.user?.username {
-                return userName
-            }
-            
-            return ""
+        if let userName = shot.user?.username {
+            return userName
         }
+        
+        return ""
     }
     
     var shotImageLink: String!{
-        get{
-            
-            if let hidpi = shot.images?.hidpi {
-                return hidpi
-            }
-            
-            if let normal = shot.images?.normal {
-                return normal
-            }
-            
-            if let teaser = shot.images?.teaser {
-                return teaser
-            }
-            
-            return ""
+        if let hidpi = shot.images?.hidpi {
+            return hidpi
         }
+        
+        if let normal = shot.images?.normal {
+            return normal
+        }
+        
+        if let teaser = shot.images?.teaser {
+            return teaser
+        }
+        
+        return ""
     }
     
     var user: User? {
-        get{
-            return shot.user
-        }
+        return shot.user
     }
     
     var shotLikeFunction:(method: HTTPMehod, completion: BoolVoidFunction) -> () {
-        get{
-            return shotLikeAction
-        }
+        return shotLikeAction
     }
     
     func shotLikeAction(action: HTTPMehod, completion:BoolVoidFunction) {

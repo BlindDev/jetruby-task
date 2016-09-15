@@ -80,8 +80,6 @@ class ConnectionManager {
     }
     
     func shotCommentAction(action: HTTPMehod, shotID: Int, body: String?, completion:ResponseResultFunction) {
-        //GET /shots/:shot/comments
-        //POST /shots/:shot/comments
 
         guard let tokenString = token else{
             return
@@ -112,9 +110,8 @@ class ConnectionManager {
         }
     }
     
-    func getUserInfo() {
-        
-    }
+//    GET /users/:user/followers
+//    GET /users/:user/likes
     
     var loginURL: NSURL? {
         get{

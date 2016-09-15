@@ -16,7 +16,7 @@ class LoginViewModel {
         self.url = url
     }
     
-    func authURL() -> NSURL? {
+    var authURL: NSURL? {
         return url
     }
 }

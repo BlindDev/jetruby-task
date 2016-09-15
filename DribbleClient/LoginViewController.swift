@@ -12,7 +12,7 @@ class LoginViewController: UIViewController {
 
     weak var viewModel: LoginViewModel! {
         didSet{
-            authURL = viewModel.authURL()
+            authURL = viewModel.authURL
         }
     }
     

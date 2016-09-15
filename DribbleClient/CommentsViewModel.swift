@@ -18,19 +18,16 @@ class CommentsViewModel {
     }
     
     private var cellsModels: [CommentsTableViewCellViewModel]! {
-        get{
-            
-            let comments = dataManager.savedComments(shotID)
-            
-            var commentViewModels: [CommentsTableViewCellViewModel] = []
-            
-            for comment in comments {
-                let newModel = CommentsTableViewCellViewModel(withComment: comment)
-                commentViewModels.append(newModel)
-            }
-            
-            return commentViewModels
+        let comments = dataManager.savedComments(shotID)
+        
+        var commentViewModels: [CommentsTableViewCellViewModel] = []
+        
+        for comment in comments {
+            let newModel = CommentsTableViewCellViewModel(withComment: comment)
+            commentViewModels.append(newModel)
         }
+        
+        return commentViewModels
     }
     
     func numberOfComments() -> Int {
@@ -54,9 +51,7 @@ class CommentsViewModel {
     }
     
     var commentAction:(comment: String, completion: VoidFunction)->(){
-        get{
-            return setComment
-        }
+        return setComment
     }
     
     private func setComment(body: String, completion: VoidFunction) {

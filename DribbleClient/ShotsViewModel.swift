@@ -13,19 +13,16 @@ class ShotsViewModel {
     private let dataManager = DataManager.sharedInstance
     
     private var cellsModels: [ShotsTableViewCellViewModel]! {
-        get{
-            
-            let shots = dataManager.savedShots()
-            
-            var shotViewModels: [ShotsTableViewCellViewModel] = []
-            
-            for shot in shots {
-                let newModel = ShotsTableViewCellViewModel(withShot: shot)
-                shotViewModels.append(newModel)
-            }
-            
-            return shotViewModels
+        let shots = dataManager.savedShots()
+        
+        var shotViewModels: [ShotsTableViewCellViewModel] = []
+        
+        for shot in shots {
+            let newModel = ShotsTableViewCellViewModel(withShot: shot)
+            shotViewModels.append(newModel)
         }
+        
+        return shotViewModels
     }
     
     func numberOfShots() -> Int {
@@ -49,9 +46,7 @@ class ShotsViewModel {
     }
     
     var logoutFunction:()->()!{
-        get{
-            return logout
-        }
+        return logout
     }
     
     private func logout() {

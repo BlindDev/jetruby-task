@@ -41,6 +41,7 @@ class User: IndexedObject {
     dynamic var avatar_url: String?
     dynamic var followers_count: Int = 0
     dynamic var likes_count: Int = 0
+    dynamic var likes_received_count: Int = 0
     dynamic var shots_count: Int = 0
 }
 

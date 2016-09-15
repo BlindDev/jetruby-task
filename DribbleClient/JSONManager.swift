@@ -171,6 +171,10 @@ class Serializer {
             newUser.likes_count = likes_count
         }
         
+        if let likes_received_count = json["likes_received_count"].int {
+            newUser.likes_received_count = likes_received_count
+        }
+        
         if let shots_count = json["shots_count"].int {
             newUser.shots_count = shots_count
         }

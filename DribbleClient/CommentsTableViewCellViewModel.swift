@@ -17,38 +17,29 @@ class CommentsTableViewCellViewModel {
     }
     
     var commentBody: String! {
-        get{
-            return comment.body.withoutHTML
-        }
+        return comment.body.withoutHTML
     }
     
     var date: String! {
-        get{
-            
-            guard let dateString = comment.created?.convertedString else{
-                return ""
-            }
-            
-            return dateString
+        guard let dateString = comment.created?.convertedString else{
+            return ""
         }
+        
+        return dateString
     }
     
     var userName: String! {
-        get{
-            guard let user = comment.user?.username else{
-                return ""
-            }
-            
-            return user
+        guard let user = comment.user?.username else{
+            return ""
         }
+        
+        return user
     }
     
     var avatarLink: String! {
-        get{
-            guard let link = comment.user?.avatar_url else{
-                return ""
-            }
-            return link
+        guard let link = comment.user?.avatar_url else{
+            return ""
         }
+        return link
     }
 }
